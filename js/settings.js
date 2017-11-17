@@ -2,33 +2,32 @@ var settingsState = {
     create: function() {
 		this.add.image(0, 0, "settings_bg");
 		
-		this.numberOfClimbers = [];
+		this.numberOfClimbers = 2;
 		this.castles = [];
 
-        this.world.add(
-        	new Phaser.Text(this.game, 700, 100, 'Game Settings', {
+        this.world.add(new Phaser.Text(this.game, 700, 100, 'Game Settings', {
 				font: '50pt electronic',
-				fill: 'white'
-			})
-		);
-
-        this.world.add(
-        	new Phaser.Text(this.game, 500, 250, 'Number of knights:', {
+				fill: 'white'}));
+        this.world.add(new Phaser.Text(this.game, 500, 250, 'Number of knights:', {
 				font: '40pt electronic',
-				fill: 'white'
-			})
-		);
+				fill: 'white'}));
 
-		var padding = 20;
-		// for (var i=0; i<6; i++) {
-		// 	var btn = new ButtonX(this.game, 0, 460, "misc", this.onNumberOfClimbersClicked, this, "btn_" + (i+1));
-		// 	btn.id = (i+1);
-		// 	btn.anchor.setTo(0, 0.5);
-		// 	btn.x = 144 + i * (btn.width + padding);
-		// 	this.numberOfClimbers[i] = btn;
-		// 	this.world.add(btn);
-		// }
-		// this.activate(this.numberOfClimbers, this.numberOfClimbers[1]);
+        var padding = 20;
+
+        // knights counter
+        var decreaseBtn = new ButtonX(this.game, 1020, 280, 'buttons', this.decreaseClimbers, this, 'LeftBTN');
+		decreaseBtn.scale.setTo(2, 2);
+		this.world.add(decreaseBtn);
+		//var emptySpace = new Phaser.Image(this.game, 1055, 230, 'buttons', 'EmptyBTN');
+		//this.world.add(emptySpace);
+		this.counterText = new Phaser.Text(this.game, 1090, 240, this.numberOfClimbers, {
+			font: '60pt electronic', fill: 'white'
+		});
+		this.world.add(this.counterText);
+		var increaseBtn = new ButtonX(this.game, 1200, 280, 'buttons', this.increaseClimbers, this, 'RightBtn');
+		increaseBtn.scale.setTo(2, 2);
+		this.world.add(increaseBtn);
+
 
 		this.world.add(
 			new Phaser.Text(this.game, 700, 400, 'Size of the castle:', {
@@ -148,5 +147,17 @@ var settingsState = {
         console.log('activate', who.frameName);
         group.forEach(function(element){ element.unpress() });
         setTimeout(who.press, 50)
-	}
+	},
+
+	increaseClimbers: function () {
+    	if (this.numberOfClimbers >= 10) return;
+
+		this.numberOfClimbers += 1;
+		this.counterText.text = this.numberOfClimbers;
+    },
+	decreaseClimbers: function () {
+    	if (this.numberOfClimbers <= 1) return;
+		this.numberOfClimbers -= 1;
+		this.counterText.text = this.numberOfClimbers;
+    }
 };
