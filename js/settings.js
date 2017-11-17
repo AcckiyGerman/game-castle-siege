@@ -4,18 +4,39 @@ var settingsState = {
 		
 		this.numberOfClimbers = [];
 		this.mountains = [];
-		
+
+        this.world.add(
+        	new Phaser.Text(this.game, 750, 100, 'Game Settings', {
+				font: '50pt electronic',
+				fill: 'white'
+			})
+		);
+
+        this.world.add(
+        	new Phaser.Text(this.game, 500, 250, 'Number of knights:', {
+				font: '40pt electronic',
+				fill: 'white'
+			})
+		);
+
 		var padding = 10;
-		for (var i=0; i<6; i++) {
-			var btn = new ButtonX(this.game, 0, 460, "misc", this.onNumberOfClimbersClicked, this, "btn_" + (i+1));
-			btn.id = (i+1);
-			btn.anchor.setTo(0, 0.5);
-			btn.x = 144 + i * (btn.width + padding);
-			this.numberOfClimbers[i] = btn;
-			this.world.add(btn);
-		}
-		this.activate(this.numberOfClimbers, this.numberOfClimbers[1]);
-		
+		// for (var i=0; i<6; i++) {
+		// 	var btn = new ButtonX(this.game, 0, 460, "misc", this.onNumberOfClimbersClicked, this, "btn_" + (i+1));
+		// 	btn.id = (i+1);
+		// 	btn.anchor.setTo(0, 0.5);
+		// 	btn.x = 144 + i * (btn.width + padding);
+		// 	this.numberOfClimbers[i] = btn;
+		// 	this.world.add(btn);
+		// }
+		// this.activate(this.numberOfClimbers, this.numberOfClimbers[1]);
+
+		this.world.add(
+			new Phaser.Text(this.game, 750, 400, 'Size of the castle:',{
+				font: '40pt electronic',
+				fill: 'white'
+			})
+		);
+
 		for (var i=0; i<3; i++) {
 			var btn = new ButtonX(this.game, 0, 655, "misc", this.onMountainClicked, this, "btn_mountain_" + (i+1));
 			btn.id = (i+1);

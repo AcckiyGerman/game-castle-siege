@@ -33,7 +33,9 @@ var preloadState = {
 		if (game.cache.isSoundDecoded("night_in_the_castle")) {
 			if (!this.isNextStageStarted) {
 				this.isNextStageStarted = true;
-				this.game.state.start('menu');
+				// game should start with 'menu' scene
+				// you can change it for debug
+				this.game.state.start('settings');
 			}
 		} 
     }
