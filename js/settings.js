@@ -3,7 +3,7 @@ var settingsState = {
 		this.add.image(0, 0, "settings_bg");
 		
 		this.numberOfClimbers = [];
-		this.mountains = [];
+		this.castles = [];
 
         this.world.add(
         	new Phaser.Text(this.game, 750, 100, 'Game Settings', {
@@ -31,22 +31,20 @@ var settingsState = {
 		// this.activate(this.numberOfClimbers, this.numberOfClimbers[1]);
 
 		this.world.add(
-			new Phaser.Text(this.game, 750, 400, 'Size of the castle:',{
+			new Phaser.Text(this.game, 750, 400, 'Size of the castle:', {
 				font: '40pt electronic',
 				fill: 'white'
 			})
 		);
 
-		for (var i=0; i<3; i++) {
-			var btn = new ButtonX(this.game, 0, 655, "misc", this.onMountainClicked, this, "btn_mountain_" + (i+1));
-			btn.id = (i+1);
-			btn.anchor.setTo(0, 0.5);
-			btn.x = 144 + i * (btn.width + padding);
-			this.mountains[i] = btn;
-			this.world.add(btn);
-		}
-		this.activate(this.mountains, this.mountains[0]);
-		
+        ['SmallCastle', 'MediumCastle', 'LargeCastle'].forEach(function(castle, i){
+            var btn = new ButtonX(this.game, 0, 550, 'buttons', this.onCastleClicked, this, castle);
+            btn.x = 600 + i * (btn.width + padding);
+            this.castles[i] = btn;
+            this.world.add(btn)
+        }, this);
+        this.activate(this.castles, this.castles[0]);
+
 		this.btnYes = new ButtonX(this.game, 144, 840, "misc", this.onYesClicked, this, "btn_yes");
 		this.btnYes.anchor.setTo(0, 0.5);
 		this.world.add(this.btnYes);
@@ -105,19 +103,16 @@ var settingsState = {
 	onNumberOfClimbersClicked: function(button) {
 		this.activate(this.numberOfClimbers, button);
 	},
-	onMountainClicked: function(button) {
-		this.activate(this.mountains, button);
+    onCastleClicked: function(button) {
+		this.activate(this.castles, button);
 	},
-	activate:function(group, who) {
-		for (var i=0; i<group.length; i++) {
 
-			if (who.id == group[i].id) {
-				group[i].frameName = group[i].frameName.replace("_down", "") + "_down";
-			} else {
-				group[i].frameName = group[i].frameName.replace("_down", "");
-			}
-		}
+	activate: function(group, who) {
+        console.log('activate', who.frameName);
+        group.forEach(function(element){ element.unpress() });
+        setTimeout(who.press, 50)
 	},
+
 	onNoClicked: function() {
 		this.btnYes.frameName = "btn_yes";
 		this.btnNo.frameName = "btn_no_down";
@@ -126,4 +121,4 @@ var settingsState = {
 		this.btnYes.frameName = "btn_yes_down";
 		this.btnNo.frameName = "btn_no";
 	}
-}
+};
