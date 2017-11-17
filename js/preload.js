@@ -4,12 +4,13 @@ var preloadState = {
         game.load.onFileComplete.add(function(progress) {
             txtProgress.setText(progress + "%")
         }, this);
-		
+
+        game.load.image('title_screen', 'assets/titlescreen/TitleScreen.png');
 		game.load.image('menu_bg', 'assets/menu_bg.png');
-		game.load.image('rules_bg', 'assets/rules_bg.png');
-		game.load.image('settings_bg', 'assets/settings_bg.png');
-		game.load.image('questions_bg', 'assets/questions_bg.png');
-		game.load.image('climbers_bg', 'assets/climbers_bg.png');
+		game.load.image('rules_bg', 'assets/menu_bg.png');
+		game.load.image('settings_bg', 'assets/menu_bg.png');
+		game.load.image('questions_bg', 'assets/menu_bg.png');
+		game.load.image('knights_bg', 'assets/knights_bg.png');
 		game.load.image('map1', 'assets/map1.png');
 		game.load.image('map2', 'assets/map2.png');
 		game.load.image('map3', 'assets/map3.png');

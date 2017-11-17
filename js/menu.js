@@ -1,6 +1,6 @@
 var menuState = {
     create: function() {
-		this.add.image(0, 0, "menu_bg");
+		this.add.image(0, 0, "title_screen");
 		
 		this.btnNewGame = new ButtonX(this.game, 955, 600, "misc", this.onNewGameClicked, this, "btn_new_game");
 		this.btnNewGame.anchor.setTo(0.5, 0);
