@@ -17,11 +17,13 @@ var ButtonX = function(game, x, y, key, callback, callbackContext, overFrame) {
     this.anchor.setTo(.5, .5);
 	this.frameName = overFrame;
     this.onInputDown.add(function() {
-		this.scale.setTo(1.1,1.1);
+		//this.scale.setTo(1.1,1.1);
+		this.frameName = overFrame + 'press';
 		game.world.bringToTop(this);
 	}, this);
     this.onInputUp.add(function() {
-		this.scale.setTo(1, 1);
+		//this.scale.setTo(1, 1);
+		this.frameName = overFrame;
 		game.world.bringToTop(this);
     }, this)
 };
