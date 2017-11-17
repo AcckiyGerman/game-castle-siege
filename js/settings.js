@@ -6,7 +6,7 @@ var settingsState = {
 		this.castles = [];
 
         this.world.add(
-        	new Phaser.Text(this.game, 750, 100, 'Game Settings', {
+        	new Phaser.Text(this.game, 700, 100, 'Game Settings', {
 				font: '50pt electronic',
 				fill: 'white'
 			})
@@ -19,7 +19,7 @@ var settingsState = {
 			})
 		);
 
-		var padding = 10;
+		var padding = 20;
 		// for (var i=0; i<6; i++) {
 		// 	var btn = new ButtonX(this.game, 0, 460, "misc", this.onNumberOfClimbersClicked, this, "btn_" + (i+1));
 		// 	btn.id = (i+1);
@@ -31,7 +31,7 @@ var settingsState = {
 		// this.activate(this.numberOfClimbers, this.numberOfClimbers[1]);
 
 		this.world.add(
-			new Phaser.Text(this.game, 750, 400, 'Size of the castle:', {
+			new Phaser.Text(this.game, 700, 400, 'Size of the castle:', {
 				font: '40pt electronic',
 				fill: 'white'
 			})
@@ -45,24 +45,53 @@ var settingsState = {
         }, this);
         this.activate(this.castles, this.castles[0]);
 
-		this.btnYes = new ButtonX(this.game, 144, 840, "misc", this.onYesClicked, this, "btn_yes");
-		this.btnYes.anchor.setTo(0, 0.5);
-		this.world.add(this.btnYes);
-		
-		this.btnNo = new ButtonX(this.game, 144+177+padding, 840, "misc", this.onNoClicked, this, "btn_no");
-		this.btnNo.anchor.setTo(0, 0.5);
-		this.world.add(this.btnNo);
-		this.onYesClicked();
-		
-		this.btnSubmit = new ButtonX(this.game, 144, 1000, "misc", this.onSubmitClicked, this, "btn_submit");
+        // Show questions? (yes, no)
+        this.world.add(
+            new Phaser.Text(this.game, 300, 700, 'Questions displayed\non screen:', {
+                font: '40pt electronic',
+                fill: 'white'
+            })
+        );
+		// yes btn
+		this.showQuestionsYes = new ButtonX(this.game, 850, 750, "buttons", this.switchShowQuestion, this, "YesBTN");
+		this.showQuestionsYes.anchor.setTo(0, 0.5);
+		this.world.add(this.showQuestionsYes);
+		// no btn
+		this.showQuestionsNo = new ButtonX(this.game, 850+this.showQuestionsYes.width+2*padding, 750, "buttons", this.switchShowQuestion, this, "NoBTN");
+		this.showQuestionsNo.anchor.setTo(0, 0.5);
+		this.world.add(this.showQuestionsNo);
+		// make group and activate 'Yes'
+		this.showQuestions = [this.showQuestionsYes, this.showQuestionsNo];
+		this.activate(this.showQuestions, this.showQuestions[0]);
+
+		// Archer attacks? (yes, no)
+        this.world.add(
+            new Phaser.Text(this.game, 300, 900, 'Archer attacks:', {
+                font: '40pt electronic',
+                fill: 'white'
+            })
+        );
+		// yes, no buttons
+		this.archerAttacksSwitcher = [];
+		['YesBTN', 'NoBTN'].forEach(function(button, i){
+			var btn = new ButtonX(this.game, 0, 950, 'buttons', this.switchArcherQuestion, this, button);
+			btn.x = 980 + i * (btn.width + padding*2);
+			this.archerAttacksSwitcher.push(btn);
+			this.world.add(btn)
+		}, this);
+		this.activate(this.archerAttacksSwitcher, this.archerAttacksSwitcher[0]);
+
+
+
+
+		this.btnSubmit = new ButtonX(this.game, 1600, 1000, "buttons", this.onSubmitClicked, this, "SubmitBTN");
 		this.btnSubmit.anchor.setTo(0, 0.5);
 		this.world.add(this.btnSubmit);
-	}, 
+	},
+
 	onSubmitClicked: function() {
-		if (this.btnYes.frameName == "btn_yes_down") 
-			Global.showQuestions = true;
-		else
-			Global.showQuestions = false;
+    	Global.showQuestions = this.showQuestionsYes.pressed;
+		Global.archerAttacks = this.archerAttacksSwitcher[0].pressed;
 		
 		var noOfPlayers = 0;
 		var defaultNames = ["Phil", "Teresa", "Nathan", "Sophia", "Laila", "Brandon"];
@@ -103,6 +132,14 @@ var settingsState = {
 	onNumberOfClimbersClicked: function(button) {
 		this.activate(this.numberOfClimbers, button);
 	},
+
+	switchShowQuestion: function (button) {
+		this.activate(this.showQuestions, button)
+    },
+    switchArcherQuestion: function (button) {
+		this.activate(this.archerAttacksSwitcher, button)
+    },
+
     onCastleClicked: function(button) {
 		this.activate(this.castles, button);
 	},
@@ -111,14 +148,5 @@ var settingsState = {
         console.log('activate', who.frameName);
         group.forEach(function(element){ element.unpress() });
         setTimeout(who.press, 50)
-	},
-
-	onNoClicked: function() {
-		this.btnYes.frameName = "btn_yes";
-		this.btnNo.frameName = "btn_no_down";
-	},
-	onYesClicked: function() {
-		this.btnYes.frameName = "btn_yes_down";
-		this.btnNo.frameName = "btn_no";
 	}
 };

@@ -3,7 +3,8 @@ var Global = {
 	questions: [],
 	players: [],
 	selectedMap: 0,
-	showQuestions: false
+	showQuestions: false,
+	archerAttacks: false
 };
 
 //var standarText = { font: "32px furoreregular", fill: "#ffffff", fontVariant: "small-caps"};
