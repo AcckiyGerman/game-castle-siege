@@ -7,7 +7,7 @@ var preloadState = {
 
         game.load.image('title_screen', 'assets/titlescreen/TitleScreen.png');
 		game.load.image('menu_bg', 'assets/menu_bg.png');
-		game.load.image('rules_bg', 'assets/menu_bg.png');
+		game.load.image('rules_bg', 'assets/knights_bg.png');
 		game.load.image('settings_bg', 'assets/menu_bg.png');
 		game.load.image('questions_bg', 'assets/menu_bg.png');
 		game.load.image('knights_bg', 'assets/knights_bg.png');
@@ -35,7 +35,7 @@ var preloadState = {
 				this.isNextStageStarted = true;
 				// game should start with 'menu' scene
 				// you can change it for debug
-				this.game.state.start('settings');
+				this.game.state.start('menu');
 			}
 		} 
     }
