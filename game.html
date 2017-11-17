@@ -1,0 +1,460 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Mountain Climber</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1.0, minimal-ui, user-scalable=no' />
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-touch-fullscreen" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+	<link rel="stylesheet" href="js/scroller/jquery.mCustomScrollbar.min.css" />
+	<link href="https://fonts.googleapis.com/css?family=Raleway&amp;subset=latin-ext" rel="stylesheet">
+	<script src="https://ajax.googleapis.com/ajax/libs/webfont/1.5.10/webfont.js"></script>
+	<script>
+		window.addEventListener("load", function() {
+			function onTouchPreventDefault(event) { event.preventDefault(); };
+			document.addEventListener("touchmove", onTouchPreventDefault, false);
+			document.addEventListener("touchstart", onTouchPreventDefault, false);
+		}, false);
+
+		window.addEventListener('scroll', function ()
+		{
+			document.body.scrollTop = 0;
+		}, true);
+
+		window.addEventListener('resize', function ()
+		{
+			document.body.scrollTop = 0;
+		}, true);
+
+	</script>
+    <style type="text/css">
+		@font-face {
+			font-family: 'furoreregular';
+			src: url('fonts/Furore-webfont.eot');
+			src: url('fonts/Furore-webfont.eot?#iefix') format('embedded-opentype'),
+				 url('fonts/Furore-webfont.woff') format('woff'),
+				 url('fonts/Furore-webfont.ttf') format('truetype'),
+				 url('fonts/Furore-webfont.svg#furoreregular') format('svg');
+			font-weight: normal;
+			font-style: normal;
+
+		}
+        BODY, HTML {
+            -webkit-touch-callout: none;
+            -webkit-text-size-adjust: none;
+            -webkit-user-select: none;
+            -webkit-tap-highlight-color: transparent;
+            margin:             0;
+            padding:            0;
+            font-family: 'furoreregular';
+            color:              #ccc;
+            background-color:   #ffffff;
+            overflow:           hidden;
+			height: 100%
+        }
+		@media screen and (min-aspect-ratio: 1920/1080) {
+			HTML {
+				font-size: 1.78vh;
+			}
+		}
+		@media screen and (max-aspect-ratio: 1920/1080) {
+			HTML {
+				font-size: 1vw;
+			}
+		}
+		INPUT {
+			font-family: 'Raleway', sans-serif;
+			border-radius: 0.5rem;
+			-moz-box-shadow: none;
+			-webkit-box-shadow: none;
+			box-shadow: none;
+			outline: none;
+			border: 1px solid #dddddd;
+			padding: 1rem;
+			font-size: 2rem;
+			ssfont-variant: small-caps;
+		}
+		
+		
+		#questions-form, #climbers-form, #dialog {
+			position:fixed; 
+			display: block; 
+			width: 100%; 
+			height: 100%; 
+			margin-left: 0px; 
+			margin-top: 0px;
+		}
+		#dialog {
+			background-color:rgba(0, 0, 0, 0.8); 
+		}
+		.question-row {
+			--background-color: yellow;
+			
+			margin-bottom: 1rem;
+		}
+		.question {
+			font-size: 2rem;
+			color: black;
+			width: 15rem;
+			
+			display:block;
+			float:left;
+			margin-top: 1rem;
+		}
+		.input-question {
+			width: 53rem;
+		}
+		#questions-scrollbar-holder{
+			height: 30rem;
+			overflow: auto;
+			width: 77rem;
+			margin-left: 5rem;
+			margin-top: 15rem;
+		}
+		
+		#climbers-scrollbar-holder{
+			height: 41rem;
+			overflow: auto;
+			width: 97rem;
+			margin-top: 10rem;
+		}
+		#questions {
+			
+			
+		}
+		#button-submit, #button-climbers-submit, #button-download {
+			background:url("images/btn_submit.png") no-repeat;
+			background-size: 100% 100%;
+			cursor:pointer;
+			border:none;
+			width:14.7rem;
+			height:4.5rem;
+			margin-left: 43rem;
+			margin-top: 4rem;
+		}
+		#button-submit {
+			margin-left: 1rem;
+		}
+		#button-climbers-submit {
+			margin-top: 0rem;
+		}
+		#button-download {
+			background:url("images/btn_download.png") no-repeat;
+			background-size: 100% 100%;
+			margin-left: 34rem;
+		}
+		#button-plus {
+			background:url("images/btn_plus.png") no-repeat;
+			background-size: 100% 100%;
+			cursor:pointer;
+			border:none;
+			width:5rem;
+			height:5rem;
+			margin-left: 43rem;
+		}
+		.button-delete {
+			background:url("images/btn_delete.png") no-repeat;
+			background-size: 100% 100%;
+			cursor:pointer;
+			border:none;
+			width:3rem;
+			height:3rem;
+			position:relative;
+			padding: 0;
+			float: right;
+			top: 0.8rem;
+			
+		}
+		.climber {
+			float:left;
+			width: 29rem;
+			margin-left: 2rem;
+			margin-bottom: 1rem;
+		}		
+		.climber-left {
+			background:url("images/btn_left.png") no-repeat;
+			margin-left: 10rem;
+		}
+		.climber-right {
+			background:url("images/btn_right.png") no-repeat;
+			margin-left: 12.5rem;
+		}
+		.climber-left, .climber-right {
+			background-size: 100% 100%;
+			cursor:pointer;
+			border:none;
+			width:3rem;
+			height:3rem;
+			float:left;
+			margin-top: 0.2rem;
+		}
+		
+		.climber-avatar {
+			border-radius: 0.5rem;
+			width: 18rem;
+			height: 11rem;
+			background-color:white;
+			float:left;
+			text-align: center;
+		}
+		.climber INPUT {
+			width: 16rem;
+			margin-bottom: 0.5rem;
+			font-size: 1.5rem;
+		}
+		.climber IMG {
+			height: 100%;
+		}
+		.climber SPAN {
+			font-size: 1.5rem;
+			display: block;
+			width: 10rem;
+			float: left;
+			margin-top: 1.6rem;
+			color: black;
+		}
+		#dialog-bg {
+			background:url("images/dialog.png") no-repeat;
+			margin-left: 30rem;
+			margin-top: 17rem;
+			background-size: 100% 100%;
+			width: 36rem;
+			height: 21rem;
+			font-size: 2rem;
+			color: black;
+			padding-top: 4rem;
+			padding-left: 2rem;
+			padding-right: 2rem;
+			position:relative;
+			text-align:center;
+		}
+		#button-dialog-ok {
+			background:url("images/btn_ok.png") no-repeat;
+			background-size: 100% 100%;
+			cursor:pointer;
+			border:none;
+			width:14.7rem;
+			height:4.5rem;
+			position:absolute;
+			left: 13rem;
+			bottom: 3rem;
+		}
+		#file-input {
+			font-size: 1.3rem;
+			margin-top: 2rem;
+			border: none;
+		}
+    </style>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js"></script>
+	<script src="js/scroller/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script src="js/phaser.min.js"></script>
+	<script src="js/commons.js"></script>
+	<script src="js/boot.js"></script>
+	<script src="js/preload.js"></script>
+	<script src="js/menu.js"></script>
+	<script src="js/rules.js"></script>
+	<script src="js/settings.js"></script>
+	<script src="js/questions.js"></script>
+	<script src="js/climbers.js"></script>
+	<script src="js/game.js"></script>
+	<script src="js/play.js"></script>
+	<script src="js/winner.js"></script>
+	
+	<script type="text/javascript">
+		function downloadQuestions() {
+			var questions = $("INPUT.input-question");
+			//validation
+			for (var i=0; i<questions.length; i++) {
+				if ($(questions[i]).val().trim() == "") {
+					showDialog("Question #" + (i+1)  + " can't be empty!");
+					return;
+				}
+			}
+			
+			var tmpQuestions = [];
+			for (var i=0; i<questions.length; i++) {
+				tmpQuestions[i] = $(questions[i]).val();
+			}
+			
+			res = {"version": 1.0, "questions": "" + CryptoJS.AES.encrypt(JSON.stringify(tmpQuestions), "k234n111!?-Mnkw#")};
+			uriContent = "data:application/octet-stream," + encodeURIComponent(JSON.stringify(res));
+			var x = $("<a download='questions.data' href='" + uriContent + "'></a>");
+			
+			x.appendTo('body');
+			x[0].click();
+			x.remove();
+		}
+		function hideQuestions() {
+			var questions = $("INPUT.input-question");
+			//validation
+			for (var i=0; i<questions.length; i++) {
+				if ($(questions[i]).val().trim() == "") {
+					showDialog("Question #" + (i+1)  + " can't be empty!");
+					return;
+				}
+			}
+			Global.questions = [];
+			for (var i=0; i<questions.length; i++) {
+				Global.questions[i] = {
+					"q": $(questions[i]).val()
+				}
+			}
+			document.getElementById("questions-form").style.display = "none";
+			questionsState.onSubmitClicked();
+		}
+		function showDialog(message) {
+			$("#dialog-text").html(message);
+			$("#dialog").show();
+			
+		}
+		function hideDialog() {
+			$("#dialog").hide();
+		}
+		function hideClimbers() {
+			var climberNames = $("INPUT.climber-team-name");
+			//validation
+			for (var i=0; i<climberNames.length; i++) {
+				if ($(climberNames[i]).val().trim() == "") {
+					showDialog("Climber #" + (i+1)  + " needs a name!");
+					return;
+				}
+			}
+			
+			var avatars = $(".climber-avatar");
+			for (var i=0; i<climberNames.length; i++) {
+				Global.players[i].name = $(climberNames[i]).val().trim();
+				Global.players[i].avatar = $(avatars[i]).data("id");
+			}
+			
+			document.getElementById("climbers-form").style.display = "none";
+			climbersState.onSubmitClicked();
+		}
+		
+		function showQuestions() {
+			//remove all questions
+			$("#questions").html("");
+			for (var i=0; i<Global.questions.length; i++)
+				addQuestion(Global.questions[i].q, false);
+			document.getElementById("questions-form").style.display = "block";
+			updateSize();
+		}
+		
+		function showClimbers() {
+			document.getElementById("climbers-form").style.display = "block";
+			$("#climbers").html("");
+			for (var i=0; i<Global.players.length; i++)
+				addClimber(Global.players[i].name, Global.players[i].avatar);
+			updateSize();
+		}
+		
+		function removeQuestion(row) {
+			var id = row.data("id");
+			row.remove();
+			var i = 0;
+			$(".question-row").each(function(){
+				$("span", this).html("Question " + (i+1));
+				$(this).data("id", i);
+				i++;
+			});
+			$("#questions-scrollbar-holder").mCustomScrollbar("update");
+			if ($("#questions").first().children().length <= Global.minQuestions) $(".button-delete").hide();
+		}
+		
+		function updateSize() {
+			document.getElementById("questions-form").style.width = (game.canvas.clientWidth) + "px";
+			document.getElementById("questions-form").style.height = (game.canvas.clientHeight) + "px";
+			document.getElementById("questions-form").style.marginLeft = game.canvas.style.marginLeft;
+			
+			document.getElementById("climbers-form").style.width = (game.canvas.clientWidth) + "px";
+			document.getElementById("climbers-form").style.height = (game.canvas.clientHeight) + "px";
+			document.getElementById("climbers-form").style.marginLeft = game.canvas.style.marginLeft;
+			
+			document.getElementById("dialog").style.width = (game.canvas.clientWidth) + "px";
+			document.getElementById("dialog").style.height = (game.canvas.clientHeight) + "px";
+			document.getElementById("dialog").style.marginLeft = game.canvas.style.marginLeft;
+			
+		}
+		
+		function addQuestion(text, scrollDown) {
+			var noOfQuestion = $("#questions").first().children().length;
+			$("#questions").append(
+				'<div data-id="' + noOfQuestion + '" class="question-row">' + 
+				'	<span class="question">Question ' + (noOfQuestion+1) + '</span>' +
+				'	<input class="input-question" type="text" value=""/>' +
+				'   <div class="button-delete" onclick="removeQuestion($(this).parent())"></div>' +
+				'</div>'
+			);
+			$("INPUT", $("#questions :last-child")).val(text);
+			if (scrollDown)
+				$("#questions-scrollbar-holder").mCustomScrollbar("scrollTo","bottom");
+			if (noOfQuestion+1 > Global.minQuestions) $(".button-delete").show();
+			if ($("#questions").first().children().length <= Global.minQuestions) $(".button-delete").hide();
+		}
+		
+		function addClimber(teamName, climberImageId) {
+			var noOfClimbers = $("#climbers").first().children().length;
+			$("#climbers").append(
+				'<div class="climber">' + 
+				'	<span>Climber ' + (noOfClimbers+1) + ':</span>' + 
+				'	<input class="climber-team-name" type="text" placeholder="Enter Team Name"/>' + 
+				'	<br/>' + 
+				'	<span>Select your climber:</span>' + 
+				'	<div class="climber-avatar" data-id="' + climberImageId + '">' + 
+				'		<img src="assets/c' + climberImageId + '.png"/>' + 
+				'	</div>' + 
+				'	<br style="clear:both" />' + 
+				'	<button class="climber-left" onclick="onLeftClicked($(this).parent())"></button>' + 
+				'	<button class="climber-right" onclick="onRightClicked($(this).parent())"></button>' + 
+				'</div>'
+			);
+			$("INPUT", $("#climbers :last-child")).val(teamName);
+		}
+		
+		function onRightClicked(climber) {
+			var id = parseInt($(".climber-avatar", climber).data("id"));
+			id++;
+			if (id > 6) id=1;
+			$(".climber-avatar", climber).data("id", id);
+			$("img", climber).attr("src","assets/c" + id +".png");
+		}
+		
+		function onLeftClicked(climber) {
+			var id = parseInt($(".climber-avatar", climber).data("id"));
+			id--;
+			if (id < 1) id=6;
+			$(".climber-avatar", climber).data("id", id);
+			$("img", climber).attr("src","assets/c" + id +".png");
+		}
+	</script>
+</head>
+<body>
+	<div id="game" style="height:100%">
+		<div id="questions-form" style="display:none">
+			<div id="questions-scrollbar-holder">
+				<div id="questions">
+				</div>
+				<button id="button-plus" onclick="addQuestion('', true)"></button>
+			</div>
+			<button id="button-download" onclick="downloadQuestions()"></button> 
+			<button id="button-submit" onclick="hideQuestions()"></button> 
+		</div>
+		<div id="climbers-form" style="display:none">
+			<div id="climbers-scrollbar-holder">
+				<div id="climbers">
+				</div>
+			</div>
+			<button id="button-climbers-submit" onclick="hideClimbers()"></button> 
+		</div>
+		<div id="dialog" style="display:none">
+			<div id="dialog-bg">
+				<div id="dialog-text">
+				</div>
+				<button id="button-dialog-ok" onclick="hideDialog()"></button> 
+			</div>
+		</div>
+	</div>
+</body>
+</html>
