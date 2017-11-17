@@ -88,7 +88,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":257,"h":128},
 	"sourceSize": {"w":257,"h":128}
 },
-"NextBTNPress":
+"NextBTNpress":
 {
 	"frame": {"x":238,"y":0,"w":257,"h":128},
 	"rotated": false,
@@ -175,6 +175,6 @@
 	"format": "RGBA8888",
 	"size": {"w":2010,"h":363},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:f4ba92c96c782d616c50d76a17c00e44:c441de442da539502e5a5de1879e9b19:b34c8670b11bb20cb1751a70d3683e22$"
+	"smartupdate": "$TexturePacker:SmartUpdate:e7f4701600b8035f1389a9f4128069cc:c441de442da539502e5a5de1879e9b19:b34c8670b11bb20cb1751a70d3683e22$"
 }
 }
