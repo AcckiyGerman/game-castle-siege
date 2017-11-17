@@ -24,11 +24,11 @@ var preloadState = {
 		game.load.atlasXML("misc", "assets/misc.png", "assets/misc.xml");
 		game.load.audio("answered", ["assets/audio/answered.ogg", "assets/audio/answered.mp3"]);
 		game.load.audio("answered_top", ["assets/audio/answered_top.ogg", "assets/audio/answered_top.mp3"]);
-		game.load.audio("winner", ["assets/audio/winner.ogg", "assets/audio/winner.mp3"]);
+		game.load.audio("night_in_the_castle", ["assets/audio/night_in_the_castle.mp3"]);
 		this.isNextStageStarted = false;
 	},
 	update: function() {
-		if (game.cache.isSoundDecoded("winner")) {
+		if (game.cache.isSoundDecoded("night_in_the_castle")) {
 			if (!this.isNextStageStarted) {
 				this.isNextStageStarted = true;
 				this.game.state.start('menu');

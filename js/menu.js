@@ -10,7 +10,7 @@ var menuState = {
 		this.btnLoadGame.anchor.setTo(0.5, 0);
         this.world.add(this.btnLoadGame);
 		
-		this.music = game.add.audio("winner");
+		this.music = game.add.audio("night_in_the_castle");
 		this.music.play();
 	},
 	onNewGameClicked: function() {
