@@ -2,11 +2,11 @@ var menuState = {
     create: function() {
 		this.add.image(0, 0, "title_screen");
 		
-		this.btnNewGame = new ButtonX(this.game, 800, 900, "misc", this.onNewGameClicked, this, "btn_new_game");
+		this.btnNewGame = new ButtonX(this.game, 800, 900, "buttons", this.onNewGameClicked, this, "NewGameBTN");
 		this.btnNewGame.anchor.setTo(0.5, 0);
 		this.world.add(this.btnNewGame);
 		
-		this.btnLoadGame = new ButtonX(this.game, 1200, 900, "misc", this.onLoadClicked, this, "btn_load_game");
+		this.btnLoadGame = new ButtonX(this.game, 1200, 900, "buttons", this.onLoadClicked, this, "LoadGameBTN");
 		this.btnLoadGame.anchor.setTo(0.5, 0);
         this.world.add(this.btnLoadGame);
 		
