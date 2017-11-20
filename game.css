@@ -99,7 +99,7 @@ INPUT {
     margin-left: 43rem;
     margin-top: 4rem;
 }
-#button-submit:active{
+#button-submit:active, #button-climbers-submit:active{
     background:url("images/SubmitBTNpress.png") no-repeat;
     background-size: 100% 100%;
 }
