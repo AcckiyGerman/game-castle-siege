@@ -1,26 +1,25 @@
 var settingsState = {
     create: function() {
+        var padding = 20;
 		this.add.image(0, 0, "settings_bg");
-		
-		this.numberOfClimbers = 2;
-		this.castles = [];
 
+		// title
         this.world.add(new Phaser.Text(this.game, 700, 100, 'Game Settings', {
 				font: '50pt electronic',
 				fill: 'white'}));
+
+        // number of knights section
         this.world.add(new Phaser.Text(this.game, 500, 250, 'Number of knights:', {
 				font: '40pt electronic',
 				fill: 'white'}));
-
-        var padding = 20;
-
-        // knights counter
+        this.numberOfKnights = 2;
+        // knights counter controls
         var decreaseBtn = new ButtonX(this.game, 1020, 280, 'buttons', this.decreaseClimbers, this, 'LeftBTN');
 		decreaseBtn.scale.setTo(2, 2);
 		this.world.add(decreaseBtn);
 		//var emptySpace = new Phaser.Image(this.game, 1055, 230, 'buttons', 'EmptyBTN');
 		//this.world.add(emptySpace);
-		this.counterText = new Phaser.Text(this.game, 1090, 240, this.numberOfClimbers, {
+		this.counterText = new Phaser.Text(this.game, 1090, 240, this.numberOfKnights, {
 			font: '60pt electronic', fill: 'white'
 		});
 		this.world.add(this.counterText);
@@ -28,14 +27,11 @@ var settingsState = {
 		increaseBtn.scale.setTo(2, 2);
 		this.world.add(increaseBtn);
 
-
-		this.world.add(
-			new Phaser.Text(this.game, 700, 400, 'Size of the castle:', {
+		// castle size section
+		this.world.add(new Phaser.Text(this.game, 700, 400, 'Size of the castle:', {
 				font: '40pt electronic',
-				fill: 'white'
-			})
-		);
-
+				fill: 'white'}));
+        this.castles = [];
         ['SmallCastle', 'MediumCastle', 'LargeCastle'].forEach(function(castle, i){
             var btn = new ButtonX(this.game, 0, 550, 'buttons', this.onCastleClicked, this, castle);
             btn.x = 600 + i * (btn.width + padding);
@@ -52,11 +48,15 @@ var settingsState = {
             })
         );
 		// yes btn
-		this.showQuestionsYes = new ButtonX(this.game, 850, 750, "buttons", this.switchShowQuestion, this, "YesBTN");
+		this.showQuestionsYes = new ButtonX(
+			this.game, 850, 750, "buttons", this.switchShowQuestion, this, "YesBTN");
 		this.showQuestionsYes.anchor.setTo(0, 0.5);
 		this.world.add(this.showQuestionsYes);
 		// no btn
-		this.showQuestionsNo = new ButtonX(this.game, 850+this.showQuestionsYes.width+2*padding, 750, "buttons", this.switchShowQuestion, this, "NoBTN");
+		this.showQuestionsNo = new ButtonX(
+			this.game, 850+this.showQuestionsYes.width+2*padding, 750,
+			"buttons", this.switchShowQuestion, this, "NoBTN"
+		);
 		this.showQuestionsNo.anchor.setTo(0, 0.5);
 		this.world.add(this.showQuestionsNo);
 		// make group and activate 'Yes'
@@ -73,7 +73,8 @@ var settingsState = {
 		// yes, no buttons
 		this.archerAttacksSwitcher = [];
 		['YesBTN', 'NoBTN'].forEach(function(button, i){
-			var btn = new ButtonX(this.game, 0, 950, 'buttons', this.switchArcherQuestion, this, button);
+			var btn = new ButtonX(
+				this.game, 0, 950, 'buttons', this.switchArcherQuestion, this, button);
 			btn.x = 980 + i * (btn.width + padding*2);
 			this.archerAttacksSwitcher.push(btn);
 			this.world.add(btn)
@@ -81,9 +82,8 @@ var settingsState = {
 		this.activate(this.archerAttacksSwitcher, this.archerAttacksSwitcher[0]);
 
 
-
-
-		this.btnSubmit = new ButtonX(this.game, 1600, 1000, "buttons", this.onSubmitClicked, this, "SubmitBTN");
+		this.btnSubmit = new ButtonX(
+			this.game, 1600, 1000, "buttons", this.onSubmitClicked, this, "SubmitBTN");
 		this.btnSubmit.anchor.setTo(0, 0.5);
 		this.world.add(this.btnSubmit);
 	},
@@ -91,45 +91,39 @@ var settingsState = {
 	onSubmitClicked: function() {
     	Global.showQuestions = this.showQuestionsYes.pressed;
 		Global.archerAttacks = this.archerAttacksSwitcher[0].pressed;
-		
-		var noOfPlayers = 0;
-		var defaultNames = ["Phil", "Teresa", "Nathan", "Sophia", "Laila", "Brandon"];
-		for (var i=0; i<6; i++) {
-			if (this.numberOfClimbers[i].frameName == "btn_" + (i+1) + "_down") {
-				if (Global.players.length != i+1) {
-					Global.players = [];
-					for (var j=0; j<i+1; j++) {
-						Global.players[j] = {
-							"name": defaultNames[j], "avatar": "" + (j+1), "score": 0, "position": 0
-						};
-					}
-				}
+		Global.numberOfKnights = this.numberOfKnights;
+
+		for (var i=0; i<this.numberOfKnights; i++){
+			Global.players[i] = {
+				'name': Global.knightNames[i],
+				'avatar': Global.knightColors[i],
+				'score': 0,
+				'position': 0
 			}
 		}
-			
-		for (var i=0; i<3; i++) {
-			if (this.mountains[i].frameName == "btn_mountain_" + (i+1) + "_down") {
+
+		this.castles.forEach(function(castle, i){
+			if (castle.pressed)
 				Global.selectedMap = i;
-			}
-		}
-		var noOfQuestions = 10;
-		if (Global.selectedMap == 0) noOfQuestions = 10;
-		if (Global.selectedMap == 1) noOfQuestions = 15;
-		if (Global.selectedMap == 2) noOfQuestions = 20;
+		}, this);
+
+		var noOfQuestions = 7;
+		if (Global.selectedMap == 0) noOfQuestions = 7;
+		if (Global.selectedMap == 1) noOfQuestions = 12;
+		if (Global.selectedMap == 2) noOfQuestions = 15;
 		
 		
 		Global.minQuestions = noOfQuestions;
 		while (Global.questions.length < noOfQuestions) {
 			Global.questions.push({"q": ""});
 		}
-		
+
+        console.log('Global:', Global);
+		// next screen
 		if (Global.showQuestions)
 			this.game.state.start("questions", true);
 		else
 			this.game.state.start("climbers", true);
-	},
-	onNumberOfClimbersClicked: function(button) {
-		this.activate(this.numberOfClimbers, button);
 	},
 
 	switchShowQuestion: function (button) {
@@ -150,14 +144,14 @@ var settingsState = {
 	},
 
 	increaseClimbers: function () {
-    	if (this.numberOfClimbers >= 10) return;
+    	if (this.numberOfKnights >= 10) return;
 
-		this.numberOfClimbers += 1;
-		this.counterText.text = this.numberOfClimbers;
+		this.numberOfKnights += 1;
+		this.counterText.text = this.numberOfKnights;
     },
 	decreaseClimbers: function () {
-    	if (this.numberOfClimbers <= 1) return;
-		this.numberOfClimbers -= 1;
-		this.counterText.text = this.numberOfClimbers;
+    	if (this.numberOfKnights <= 1) return;
+		this.numberOfKnights -= 1;
+		this.counterText.text = this.numberOfKnights;
     }
 };

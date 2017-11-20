@@ -1,10 +1,15 @@
 var Global = {
-	minQuestions: 10,
+	minQuestions: 7,
 	questions: [],
 	players: [],
+    numberOfKnights: 0,
 	selectedMap: 0,
 	showQuestions: false,
-	archerAttacks: false
+	archerAttacks: false,
+	knightColors: ['Black', 'Blue', 'Brown', 'Green', 'Orange',
+		'Pink', 'Purple', 'Red', 'White', 'Yellow'],
+    knightNames: ['Launcelot', 'Gawain', 'Percivale', 'Lionel', 'Tristram',
+        'Gareth', 'Bleoberis', 'Lacotemale', 'Lucan', 'Lamorak']
 };
 
 //var standarText = { font: "32px furoreregular", fill: "#ffffff", fontVariant: "small-caps"};
