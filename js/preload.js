@@ -17,9 +17,14 @@ var preloadState = {
 		game.load.image('play_bg', 'assets/play_bg.png');
 		game.load.image('question_bg', 'assets/question_bg.png');
 		game.load.image('winner_bg', 'assets/winner_bg.png');
-		
-		for (var i=1; i<7; i++)
-			game.load.image('c'+i, 'assets/c' + i + '.png');
+
+		for (var i in Global.knightColors){
+			var color = Global.knightColors[i];
+			var knightFrontImgName = 'KnightFront'+color;
+			var knightClimbingName = 'KnightClimbing'+color;
+			game.load.image(knightFrontImgName, 'assets/knights/'+knightFrontImgName+'.png');
+			game.load.image(knightClimbingName, 'assets/knights/'+knightClimbingName+'.png');
+		}
 		
 		game.load.video('video', 'assets/video.mp4');
 		game.load.atlasXML("misc", "assets/~misc.png", "assets/~misc.xml"); // buttons from the old game
@@ -35,7 +40,7 @@ var preloadState = {
 				this.isNextStageStarted = true;
 				// game should start with 'menu' scene
 				// you can change it for debug
-				this.game.state.start('settings');
+				this.game.state.start('questions');
 			}
 		} 
     }

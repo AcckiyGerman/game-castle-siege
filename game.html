@@ -93,7 +93,7 @@
 		}
 		.question {
 			font-size: 2rem;
-			color: black;
+			color: white;
 			width: 15rem;
 			
 			display:block;
@@ -378,7 +378,7 @@
 		function addQuestion(text, scrollDown) {
 			var noOfQuestion = $("#questions").first().children().length;
 			$("#questions").append(
-				'<div data-id="' + noOfQuestion + '" class="question-row">' + 
+				'<div data-id="' + noOfQuestion + '" class="question-row">' +
 				'	<span class="question">Question ' + (noOfQuestion+1) + '</span>' +
 				'	<input class="input-question" type="text" value=""/>' +
 				'   <div class="button-delete" onclick="removeQuestion($(this).parent())"></div>' +
