@@ -181,13 +181,15 @@
 		}
 		
 		function addClimber(playerName, knightColor) {
-			var noOfClimbers = $("#climbers").first().children().length;
+			//var noOfClimbers = $("#climbers").first().children().length;
 			$("#climbers").append(
 				'<div class="climber">' +
 				'	<input class="climber-team-name" type="text" placeholder="Knight Name"/>' +
 				'	<br/>' +
-				'	<div class="climber-avatar" data-id="' + knightColor + '">' +
-				'		<img src="assets/knights/KnightFront' + knightColor + '.png"/>' +
+				'	<div class="climber-avatar">' +
+				'		<img src="assets/knights/KnightFront' + knightColor + '.png"' +
+                '            onclick="changePlayerColor($(this)[0])"' +
+				'			 alt="' + knightColor + '"/>' +  // identify knight by this
 				'	</div>' + 
 				//'	<br style="clear:both" />' +
 				//'	<button class="climber-left" onclick="onLeftClicked($(this).parent())"></button>' +
@@ -196,22 +198,33 @@
 			);
 			$("INPUT", $("#climbers :last-child")).val(playerName);
 		}
-		
-		function onRightClicked(climber) {
-			var id = parseInt($(".climber-avatar", climber).data("id"));
-			id++;
-			if (id > 6) id=1;
-			$(".climber-avatar", climber).data("id", id);
-			$("img", climber).attr("src","assets/c" + id +".png");
-		}
-		
-		function onLeftClicked(climber) {
-			var id = parseInt($(".climber-avatar", climber).data("id"));
-			id--;
-			if (id < 1) id=6;
-			$(".climber-avatar", climber).data("id", id);
-			$("img", climber).attr("src","assets/c" + id +".png");
-		}
+
+		function changePlayerColor(playerImg){
+		    var currentColor = playerImg.alt;
+			var player = Global.players.filter(function(player){
+			    return player.avatar === currentColor
+			})[0];
+			console.log('Change color for', player.name);
+
+			var freeColors = Global.knightColors.filter(function(color){
+			    var colorIsFree = true;
+			    Global.players.forEach(function(player){
+			        if (player.avatar === color)
+			            colorIsFree = false
+				});
+				return colorIsFree
+			});
+
+			if (freeColors.length == 0){
+			    console.warn('no free colors to choose');
+				return
+			}
+
+			var newColor = freeColors[Math.floor(Math.random() * freeColors.length)];
+			player.avatar = newColor;
+			playerImg.alt = newColor;
+			playerImg.src = "assets/knights/KnightFront" + newColor + ".png";
+        }
 	</script>
 </head>
 <body>
