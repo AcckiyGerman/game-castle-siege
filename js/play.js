@@ -2,64 +2,18 @@ var playState = {
 	randomQueue: [],
 	players: [],
     create: function() {
-		this.add.image(0, 0, "play_bg");
-		this.add.image(475, 135, "map" + (Global.selectedMap+1));
+		this.add.image(0, 0, "map" + Global.selectedMap);
 		
-		
-		this.btnSubmit = new ButtonX(this.game, 247, 940, "misc", this.onSubmitClicked, this, "btn_submit");
+		this.btnSubmit = new ButtonX(this.game, 247, 940, "buttons", this.onSubmitClicked, this, "SubmitBTN");
 		this.btnSubmit.anchor.setTo(.5, 0);
 		this.game.world.add(this.btnSubmit);
 		
-		this.maxScore = [5, 10, 15];
-		this.mapPositions = [
-			[
-				[550, 980, "R"],
-				[918, 807, "R"],
-				[1155, 660, "R"],
-				[1419, 550, "R"],
-				[1257, 436, "R"],
-				[1353, 289, "R"]
-			], [
-				[572, 900, "R"],
-				[726, 788, "R"], 		//1
-				[892, 710, "R"],		//2
-				[924, 614, "L"],		//3
-				[1250, 614, "R"],		//4
-				[1425, 510, "R"],		//5
-				[1294, 438, "R"],		//6
-				[948, 468, "L"],		//7
-				[890, 400, "L"],		//8
-				[1016, 314, "L"],		//9
-				[1268, 276, "R"]		//10
-			], [
-				[1354, 976, "R"],
-				[702, 938, "R"],		//1
-				[918, 902, "R"],		//2
-				[976, 818, "L"],		//3
-				[1304, 810, "R"],		//4
-				[1206, 708, "R"],		//5
-				[1076, 654, "R"],		//6
-				[798, 610, "L"],		//7
-				[926, 530, "L"],		//8
-				[1170, 600, "R"],		//9
-				[1356, 558, "R"],		//10
-				[1474, 468, "R"],		//11
-				[1350, 406, "R"],		//12
-				[1070, 384, "L"],		//13
-				[1330, 328, "R"],		//14
-				[1300, 242, "R"]
-			]
-		];
-		
-		this.usersPerPos = [];
-		for (var i=0; i<this.maxScore[Global.selectedMap]+1; i++)
-			this.usersPerPos[i] = 0;
-			
+		this.maxScore = [7, 12, 15];
+
 		this.isGameOver = false;
 		this.currentQuestion = 1;
-		
-		
-		this.createRandomQueue();
+
+		this.createRandomQuestionsQueue();
 		this.createPlayers();
 		
 		this.questionBar = game.add.group();
@@ -69,7 +23,7 @@ var playState = {
 		this.questionBar.y = -200;
 		this.showQuestion();
 	},
-	createRandomQueue: function() {
+	createRandomQuestionsQueue: function() {
 		this.randomQueue = [];
 		for (var i=0; i < Global.questions.length; i++) {
 			var found = false;
@@ -77,7 +31,7 @@ var playState = {
 				var rnd = Math.floor(Math.random() * Global.questions.length);	
 				found = false;
 				for (var j=0; j < this.randomQueue.length; j++)
-					if (this.randomQueue[j] == rnd) found = true;					
+					if (this.randomQueue[j] == rnd) found = true;
 			} while (found == true);
 			this.randomQueue[i] = rnd;
 		}
@@ -85,24 +39,25 @@ var playState = {
 	createPlayers: function() {
 		this.players = [];
 		var tmpX = 0;
-		for (var i=0; i<Global.players.length; i++) {
+		Global.players.forEach(function(player, i){
+			console.log(player);
 			var p = game.add.group();
 			p.id = i;
 			p.currentPosition = 1;
 			p.currentScore = 0;
 			Global.players[i].score = 0;
+
 			p.txtTitle = game.add.text(85, 0, p.currentPosition + ". " + Global.players[i].name, standarText, p);
-			p.avatar = game.add.sprite(0, 0, "c" + Global.players[i].avatar, 0, p);
+			p.avatar = game.add.sprite(0, 0, 'KnightFront'+player.avatar, 0, p);
 			p.avatar.scale.setTo(0.3, 0.3);
-			p.mapAvatar = game.add.sprite(0, 0, "c" + Global.players[i].avatar, 0);
+
+			p.mapAvatar = game.add.sprite(0, 0, "KnightClimbing"+player.avatar, 0);
 			p.mapAvatar.anchor.setTo(.5, .5);
 			p.mapAvatar.scale.setTo(0.3, 0.3);
-			if (this.mapPositions[Global.selectedMap][0][2] == "L")
-				p.mapAvatar.x = this.mapPositions[Global.selectedMap][0][0] - tmpX;
-			else
-				p.mapAvatar.x = this.mapPositions[Global.selectedMap][0][0] + tmpX;
-			p.mapAvatar.y = this.mapPositions[Global.selectedMap][0][1];
+			p.mapAvatar.x = 1000 + tmpX;
+			p.mapAvatar.y = p.currentScore;
 			tmpX += p.mapAvatar.width + 15;
+
 			p.btnCorrect = new ButtonX(this.game, 342, 65, "misc", this.onCorrectClicked, p, "btn_correct");
 			p.add(p.btnCorrect);
 			p.btnWrong = new ButtonX(this.game, 420, 65, "misc", this.onWrongClicked, p, "btn_wrong");
@@ -116,7 +71,7 @@ var playState = {
 			p.x = 10;
 			p.y = 120 * i + 140;
 			this.players[i] = p;
-		}
+		}, this)
 	},
 	calcPositions: function() {
 		var place = 1;

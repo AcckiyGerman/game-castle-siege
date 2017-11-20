@@ -11,10 +11,10 @@ var preloadState = {
 		game.load.image('settings_bg', 'assets/menu_bg.png');
 		game.load.image('questions_bg', 'assets/questions_bg.png');
 		game.load.image('knights_bg', 'assets/knights_bg.png');
+		game.load.image('map0', 'assets/map0.png');
 		game.load.image('map1', 'assets/map1.png');
 		game.load.image('map2', 'assets/map2.png');
-		game.load.image('map3', 'assets/map3.png');
-		game.load.image('play_bg', 'assets/play_bg.png');
+
 		game.load.image('question_bg', 'assets/question_bg.png');
 		game.load.image('winner_bg', 'assets/winner_bg.png');
 

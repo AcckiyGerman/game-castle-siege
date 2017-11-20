@@ -20,15 +20,15 @@ var climbersState = {
 			this.videoSprite = null;
 		}
 		
-		//this.btnStart = new ButtonX(this.game, 1735, 1000, "misc", this.onStartClicked, this, "btn_skip");
-		//this.world.add(this.btnStart);
-		//this.btnStart.visible = false;
+		this.btnStart = new ButtonX(this.game, 980, 990, "buttons", this.onStartClicked, this, "StartGameBTN");
+		this.world.add(this.btnStart);
+		this.btnStart.visible = false;
 	},
 	onSubmitClicked: function() {
 		if (this.video == null) {
 			this.game.state.start('play',true);
 		} else {
-			//this.btnStart.visible = true;
+			this.btnStart.visible = true;
 			this.videoSprite.visible = true;
 			this.video.play();
 		}
@@ -37,4 +37,4 @@ var climbersState = {
 		this.video.stop();
 		this.game.state.start('play',true);
 	}
-}
+};
