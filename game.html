@@ -180,23 +180,21 @@
 			if ($("#questions").first().children().length <= Global.minQuestions) $(".button-delete").hide();
 		}
 		
-		function addClimber(teamName, climberImageId) {
+		function addClimber(playerName, knightColor) {
 			var noOfClimbers = $("#climbers").first().children().length;
 			$("#climbers").append(
-				'<div class="climber">' + 
-				'	<span>Climber ' + (noOfClimbers+1) + ':</span>' + 
-				'	<input class="climber-team-name" type="text" placeholder="Enter Team Name"/>' + 
-				'	<br/>' + 
-				'	<span>Select your climber:</span>' + 
-				'	<div class="climber-avatar" data-id="' + climberImageId + '">' + 
-				'		<img src="assets/c' + climberImageId + '.png"/>' + 
+				'<div class="climber">' +
+				'	<input class="climber-team-name" type="text" placeholder="Knight Name"/>' +
+				'	<br/>' +
+				'	<div class="climber-avatar" data-id="' + knightColor + '">' +
+				'		<img src="assets/knights/KnightFront' + knightColor + '.png"/>' +
 				'	</div>' + 
-				'	<br style="clear:both" />' + 
-				'	<button class="climber-left" onclick="onLeftClicked($(this).parent())"></button>' + 
-				'	<button class="climber-right" onclick="onRightClicked($(this).parent())"></button>' + 
+				//'	<br style="clear:both" />' +
+				//'	<button class="climber-left" onclick="onLeftClicked($(this).parent())"></button>' +
+				//'	<button class="climber-right" onclick="onRightClicked($(this).parent())"></button>' +
 				'</div>'
 			);
-			$("INPUT", $("#climbers :last-child")).val(teamName);
+			$("INPUT", $("#climbers :last-child")).val(playerName);
 		}
 		
 		function onRightClicked(climber) {
@@ -229,8 +227,13 @@
 		</div>
 		<div id="climbers-form" style="display:none">
 			<div id="climbers-scrollbar-holder">
-				<div id="climbers">
-				</div>
+                <div class="flex">
+                    <div id="climbers-legend">
+                        <p>Name</p>
+                        <p>Select your knight:</p>
+                    </div>
+                    <div id="climbers"></div>
+                </div>
 			</div>
 			<button id="button-climbers-submit" onclick="hideClimbers()"></button> 
 		</div>

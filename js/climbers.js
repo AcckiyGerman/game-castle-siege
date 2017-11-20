@@ -1,6 +1,10 @@
 var climbersState = {
     create: function() {
 		this.add.image(0, 0, "knights_bg");
+        this.world.add(
+        	new Phaser.Text(this.game, 700, 100, 'Select Your Colors', {
+            	font: '50pt electronic',
+            	fill: 'white'}));
 		showClimbers();
 		
 		if (game.cache.checkVideoKey('video')) {
