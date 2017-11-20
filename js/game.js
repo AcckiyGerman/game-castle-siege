@@ -35,6 +35,6 @@ function startGame() {
 	Global.questions = [];
 	
 	$("#questions-scrollbar-holder").mCustomScrollbar({
-		theme:"rounded-dots-dark"
+		theme:"rounded-dots"
 	});
 }
