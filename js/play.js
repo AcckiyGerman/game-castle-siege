@@ -7,7 +7,7 @@ var playState = {
 		this.btnSubmit = new ButtonX(this.game, 247, 940, "buttons", this.onSubmitClicked, this, "SubmitBTN");
 		this.btnSubmit.anchor.setTo(.5, 0);
 		this.game.world.add(this.btnSubmit);
-		
+
 		this.maxScore = [7, 12, 15];
 
 		this.isGameOver = false;
@@ -17,8 +17,8 @@ var playState = {
 		this.createPlayers();
 		
 		this.questionBar = game.add.group();
-		this.questionBar.bg = game.add.sprite(13, 10, "question_bg", 0, this.questionBar);
-		this.questionBar.txt = game.add.text(960, 50, Global.questions[this.randomQueue[0]].q, standarText, this.questionBar);
+		//this.questionBar.bg = game.add.sprite(13, 10, "question_bg", 0, this.questionBar);
+		this.questionBar.txt = game.add.text(200, 75, Global.questions[this.randomQueue[0]].q, standarTextBlack, this.questionBar);
 		this.questionBar.txt.anchor.setTo(.5, 0);
 		this.questionBar.y = -200;
 		this.showQuestion();
@@ -44,14 +44,13 @@ var playState = {
 		var heroXstart = 800;
 		var heroXspace = 80;  // space between heroes
 		var heroYstart = 1000;
-        var tmpX = 0;
 
 		this.players = [];
 		Global.players.forEach(function(player, i){
 			var p = game.add.group();
 			p.id = i;
 			p.currentPosition = 1;
-			p.currentScore = 0;
+			p.score = 0;
 			Global.players[i].score = 0;
 
 			// Creating list of players and answer buttons on the left part of the screen
@@ -85,47 +84,6 @@ var playState = {
 		}, this)
 	},
 
-	calcPositions: function() {
-		var place = 1;
-		var hasPlayer = false;
-		for (var sc=this.maxScore[Global.selectedMap]; sc>=0; sc--) {
-			hasPlayer = false;
-			for (var i=0; i<this.players.length; i++) {
-				if (this.players[i].currentScore == sc) {
-					this.players[i].currentPosition = place;
-					hasPlayer = true;
-				}
-			}
-			if (hasPlayer == true) {
-				place++;
-			}
-		}
-		for (var i=0; i<this.players.length; i++) {
-			this.players[i].txtTitle.setText(this.players[i].currentPosition + ". " + Global.players[i].name);
-		}
-		
-		var posOnScreen = 0;
-		for (var pos=1; pos<7; pos++) {
-			for (var i=0; i<this.players.length; i++) {
-				if (pos == this.players[i].currentPosition) {
-					game.add.tween(this.players[i]).to({
-						y: 120 * posOnScreen + 140
-					}, 1000, Phaser.Easing.Quintic.Out, true, 0);
-					posOnScreen++;
-				}
-			}	
-		}
-		
-		if (this.isGameOver) {
-			game.time.events.add(5000, function() {
-				this.game.state.start('winner', true);
-			}, this);
-		} else {
-			game.time.events.add(1000, function() {
-				this.enableLeftButtons();
-			}, this);
-		}
-	},
 	onCorrectClicked: function() {
 		if (this.imgCorrect.visible == true) {
 			this.btnCorrect.visible = true;
@@ -152,9 +110,14 @@ var playState = {
 		var doWeHaveAWinner = false;
 		this.btnSubmit.visible = false;
 		for (var i=0; i<this.players.length; i++) {
-			if (this.players[i].imgCorrect.visible == true)
-				Global.players[this.players[i].id].score++;
-			if (Global.players[this.players[i].id].score == this.maxScore[Global.selectedMap]) doWeHaveAWinner = true;	
+			if (this.players[i].imgCorrect.visible === true) {
+                Global.players[this.players[i].id].score++;
+                this.players[i].score++
+            }
+
+			if (this.players[i].score === this.maxScore[Global.selectedMap])
+				doWeHaveAWinner = true;
+
 			this.players[i].imgCorrect.visible = false;
 			this.players[i].imgWrong.visible = false;
 			this.players[i].btnCorrect.visible = false;
@@ -162,16 +125,11 @@ var playState = {
 			this.players[i].txtTitle.setText(Global.players[i].name);
 		}
 		
-		
-		
-		
-		
-		
 		if (doWeHaveAWinner)
 			game.add.audio("answered_top").play();
 		else
 			game.add.audio("answered").play();
-		
+
 		this.animateRepositions();
 		this.hideQuestion();
 		
@@ -191,10 +149,10 @@ var playState = {
 			this.questionBar.txt.setText("Question " + (this.currentQuestion));
 		}
 		this.questionBar.txt.wordWrap = true;
-		this.questionBar.txt.wordWrapWidth = playState.questionBar.bg.width - 50;
+		this.questionBar.txt.wordWrapWidth = 1000;  //playState.questionBar.bg.width - 50;
 		this.questionBar.txt.align = 'center';
 		
-		this.questionBar.bg.height = this.questionBar.txt.height + 80;
+		//this.questionBar.bg.height = this.questionBar.txt.height + 80;
 		
 		this.currentQuestion++;
 		
@@ -212,48 +170,24 @@ var playState = {
 		this.showQuestion();
 	},
 	animateRepositions: function() {
-		this.usersPerPos = [];
-		for (var i=0; i<this.maxScore[Global.selectedMap]+1; i++)
-			this.usersPerPos[i] = 0;
-			
-		var hasMoved = false;
 		var isEndGame = false;
-		for (var i=0; i<this.players.length; i++) {
-			var score = Global.players[this.players[i].id].score;
-			if (hasMoved)
-				score = this.players[i].currentScore;
-			if (this.mapPositions[Global.selectedMap][score][2] == "L") {
-				
-				game.add.tween(this.players[i].hero).to({
-					x: this.mapPositions[Global.selectedMap][score][0] - this.usersPerPos[score],
-					y: this.mapPositions[Global.selectedMap][score][1]
-				}, 1000, Phaser.Easing.Quintic.Out, true, 0);
-				this.usersPerPos[score] += this.players[i].hero.width + 15;
-			} else {
-				game.add.tween(this.players[i].hero).to({
-					x: this.mapPositions[Global.selectedMap][score][0] + this.usersPerPos[score],
-					y: this.mapPositions[Global.selectedMap][score][1]
-				}, 1000, Phaser.Easing.Quintic.Out, true, 0);
-				this.usersPerPos[score] += this.players[i].hero.width + 15;
-			}
-			if (this.players[i].currentScore != score) {
-				this.players[i].currentScore = score;
-				hasMoved = true;
-			}
-			if (score == this.maxScore[Global.selectedMap]) isEndGame = true;
-		}
-		
-		if (hasMoved) {
-			game.time.events.add(800, function() {
-				this.animateRepositions();
-			}, this);	
-		} else {
-			if (isEndGame)
-				this.isGameOver = true;
-			this.calcPositions();
-		}
-		
-	} 
-	
-	
+		this.players.forEach(function(player, i) {
+			game.add.tween(player.hero).to({
+				x: 0,
+				y: 0
+			}, 1000, Phaser.Easing.Quintic.Out, true, 0);
+			if (player.score === this.maxScore[Global.selectedMap])
+				isEndGame = true;
+		});
+
+        if (isEndGame) {
+            game.time.events.add(5000, function() {
+                this.game.state.start('winner', true);
+            }, this);
+        } else {
+            game.time.events.add(1000, function() {
+                this.enableLeftButtons();
+            }, this);
+        }
+	}
 };

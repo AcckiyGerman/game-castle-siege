@@ -15,7 +15,7 @@ var preloadState = {
 		game.load.image('map1', 'assets/map1.png');
 		game.load.image('map2', 'assets/map2.png');
 
-		game.load.image('question_bg', 'assets/question_bg.png');
+		//game.load.image('question_bg', 'assets/question_bg.png');
 		game.load.image('winner_bg', 'assets/winner_bg.png');
 
 		for (var i in Global.knightColors){
