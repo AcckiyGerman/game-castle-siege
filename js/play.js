@@ -37,30 +37,31 @@ var playState = {
 		}
 	},
 	createPlayers: function() {
+		var avaXstart = 10;
+		var avaYstart = 180;
+		var avaYspace = 75;  // space between avatars
+
+		var heroXstart = 800;
+		var heroXspace = 80;  // space between heroes
+		var heroYstart = 1000;
+        var tmpX = 0;
+
 		this.players = [];
-		var tmpX = 0;
 		Global.players.forEach(function(player, i){
-			console.log(player);
 			var p = game.add.group();
 			p.id = i;
 			p.currentPosition = 1;
 			p.currentScore = 0;
 			Global.players[i].score = 0;
 
-			p.txtTitle = game.add.text(85, 0, p.currentPosition + ". " + Global.players[i].name, standarText, p);
+			// Creating list of players and answer buttons on the left part of the screen
+			p.txtTitle = game.add.text(50, 20, p.currentPosition + ". " + Global.players[i].name, standarTextBlack, p);
 			p.avatar = game.add.sprite(0, 0, 'KnightFront'+player.avatar, 0, p);
-			p.avatar.scale.setTo(0.3, 0.3);
+			p.avatar.scale.setTo(0.5, 0.5);
 
-			p.mapAvatar = game.add.sprite(0, 0, "KnightClimbing"+player.avatar, 0);
-			p.mapAvatar.anchor.setTo(.5, .5);
-			p.mapAvatar.scale.setTo(0.3, 0.3);
-			p.mapAvatar.x = 1000 + tmpX;
-			p.mapAvatar.y = p.currentScore;
-			tmpX += p.mapAvatar.width + 15;
-
-			p.btnCorrect = new ButtonX(this.game, 342, 65, "misc", this.onCorrectClicked, p, "btn_correct");
+			p.btnCorrect = new ButtonX(this.game, 342, 30, "misc", this.onCorrectClicked, p, "btn_correct");
 			p.add(p.btnCorrect);
-			p.btnWrong = new ButtonX(this.game, 420, 65, "misc", this.onWrongClicked, p, "btn_wrong");
+			p.btnWrong = new ButtonX(this.game, 420, 30, "misc", this.onWrongClicked, p, "btn_wrong");
 			p.add(p.btnWrong);
 			p.imgCorrect = new ButtonX(this.game, p.btnCorrect.x, p.btnCorrect.y, "misc", this.onCorrectClicked, p, "img_correct");
 			p.add(p.imgCorrect);
@@ -68,11 +69,22 @@ var playState = {
 			p.add(p.imgWrong);
 			p.imgCorrect.visible = false;
 			p.imgWrong.visible = false;
-			p.x = 10;
-			p.y = 120 * i + 140;
+
+			p.x = avaXstart;
+			p.y = avaYstart + i*avaYspace;
+
+			// Creating list of heroes on the game scene
+            p.hero = game.add.sprite(0, 0, "KnightClimbing"+player.avatar, 0);
+            p.hero.anchor.setTo(.5, .5);
+            p.hero.scale.setTo(0.7, 0.7);
+            p.hero.x = heroXstart + i*heroXspace;
+            p.hero.y = heroYstart;
+
+            // save player
 			this.players[i] = p;
 		}, this)
 	},
+
 	calcPositions: function() {
 		var place = 1;
 		var hasPlayer = false;
@@ -212,17 +224,17 @@ var playState = {
 				score = this.players[i].currentScore;
 			if (this.mapPositions[Global.selectedMap][score][2] == "L") {
 				
-				game.add.tween(this.players[i].mapAvatar).to({
+				game.add.tween(this.players[i].hero).to({
 					x: this.mapPositions[Global.selectedMap][score][0] - this.usersPerPos[score],
 					y: this.mapPositions[Global.selectedMap][score][1]
 				}, 1000, Phaser.Easing.Quintic.Out, true, 0);
-				this.usersPerPos[score] += this.players[i].mapAvatar.width + 15;
+				this.usersPerPos[score] += this.players[i].hero.width + 15;
 			} else {
-				game.add.tween(this.players[i].mapAvatar).to({
+				game.add.tween(this.players[i].hero).to({
 					x: this.mapPositions[Global.selectedMap][score][0] + this.usersPerPos[score],
 					y: this.mapPositions[Global.selectedMap][score][1]
 				}, 1000, Phaser.Easing.Quintic.Out, true, 0);
-				this.usersPerPos[score] += this.players[i].mapAvatar.width + 15;
+				this.usersPerPos[score] += this.players[i].hero.width + 15;
 			}
 			if (this.players[i].currentScore != score) {
 				this.players[i].currentScore = score;
@@ -244,4 +256,4 @@ var playState = {
 	} 
 	
 	
-}
+};
