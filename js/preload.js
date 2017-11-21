@@ -49,7 +49,7 @@ var preloadState = {
 				this.isNextStageStarted = true;
 				// game should start with 'menu' scene
 				// you can change it for debug
-				this.game.state.start('settings');
+				this.game.state.start('play');
 			}
 		} 
     }

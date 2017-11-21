@@ -5,13 +5,41 @@ var avaYspace = 75;  // space between avatars
 var heroXstart = 800;
 var heroXspace = 80;  // space between heroes
 var heroYstart = 1000;
+
 var ladderHeight = 40;
+var ladderYstart = 960;
 
 
 var playState = {
 	randomQueue: [],
 	players: [],
     create: function() {
+
+        // THIS IS FOR DEBUG PURPOSES:
+        Global = {
+            "minQuestions":7,
+            "questions":[{"q":"1"},{"q":"2"},{"q":"3"},{"q":"4"},{"q":"5"},{"q":"6"},{"q":"7"}],
+            "players":[
+                {"name":"Launcelot","avatar":"Black","score":0,"position":0},
+                // {"name":"Gawain","avatar":"Blue","score":0,"position":0},
+                // {"name":"Percivale","avatar":"Brown","score":0,"position":0},
+                // {"name":"Lionel","avatar":"Green","score":0,"position":0},
+                // {"name":"Tristram","avatar":"Orange","score":0,"position":0},
+                // {"name":"Gareth","avatar":"Pink","score":0,"position":0},
+                // {"name":"Bleoberis","avatar":"Purple","score":0,"position":0},
+                // {"name":"Lacotemale","avatar":"Red","score":0,"position":0},
+                // {"name":"Lucan","avatar":"White","score":0,"position":0},
+                // {"name":"Lamorak","avatar":"Yellow","score":0,"position":0}
+            ],
+            "numberOfKnights":1,
+            "selectedMap":0,
+            "showQuestions":false,
+            "archerAttacks":true,
+            "knightColors":["Black","Blue","Brown","Green","Orange","Pink","Purple","Red","White","Yellow"],
+            "knightNames":["Launcelot","Gawain","Percivale","Lionel","Tristram","Gareth","Bleoberis","Lacotemale","Lucan","Lamorak"]
+        };
+        // ^^^ DELETE THIS UPPER ^^^
+
 		this.add.image(0, 0, "map" + Global.selectedMap);
 		
 		this.btnSubmit = new ButtonX(this.game, 247, 940, "buttons", this.onSubmitClicked, this, "SubmitBTN");
@@ -117,7 +145,11 @@ var playState = {
 		this.players.forEach(function(player) {
 			if (player.imgCorrect.visible === true) {
                 Global.players[player.id].score++;
-                player.score++
+                player.score++;
+                var ladder = game.add.sprite(player.hero.x, 0, "Ladder", 0);
+                ladder.y = ladderYstart - player.score*ladderHeight;
+                ladder.anchor.setTo(.5, .5);
+                player.ladder.push(ladder)
             }
 
 			if (player.score === this.maxScore)
