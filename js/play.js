@@ -82,6 +82,8 @@ var playState = {
             p.hero.x = heroXstart + i*heroXspace;
             p.hero.y = heroYstart;
 
+            p.ladder = [];
+
             // save player
 			this.players[i] = p;
 		}, this)
@@ -112,21 +114,21 @@ var playState = {
 	onSubmitClicked: function() {
 		var doWeHaveAWinner = false;
 		this.btnSubmit.visible = false;
-		for (var i=0; i<this.players.length; i++) {
-			if (this.players[i].imgCorrect.visible === true) {
-                Global.players[this.players[i].id].score++;
-                this.players[i].score++
+		this.players.forEach(function(player) {
+			if (player.imgCorrect.visible === true) {
+                Global.players[player.id].score++;
+                player.score++
             }
 
-			if (this.players[i].score === this.maxScore[Global.selectedMap])
+			if (player.score === this.maxScore)
 				doWeHaveAWinner = true;
 
-			this.players[i].imgCorrect.visible = false;
-			this.players[i].imgWrong.visible = false;
-			this.players[i].btnCorrect.visible = false;
-			this.players[i].btnWrong.visible = false;
-			this.players[i].txtTitle.setText(Global.players[i].name);
-		}
+			player.imgCorrect.visible = false;
+			player.imgWrong.visible = false;
+			player.btnCorrect.visible = false;
+			player.btnWrong.visible = false;
+			player.txtTitle.setText(Global.players[player.id].name);
+		});
 		
 		if (doWeHaveAWinner)
 			game.add.audio("answered_top").play();
