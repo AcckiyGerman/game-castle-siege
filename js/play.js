@@ -1,3 +1,13 @@
+var avaXstart = 10;
+var avaYstart = 180;
+var avaYspace = 75;  // space between avatars
+
+var heroXstart = 800;
+var heroXspace = 80;  // space between heroes
+var heroYstart = 1000;
+var ladderHeight = 40;
+
+
 var playState = {
 	randomQueue: [],
 	players: [],
@@ -8,9 +18,10 @@ var playState = {
 		this.btnSubmit.anchor.setTo(.5, 0);
 		this.game.world.add(this.btnSubmit);
 
-		this.maxScore = [7, 12, 15];
+		if (Global.selectedMap === 0) this.maxScore = 7;
+		else if (Global.selectedMap === 1) this.maxScore = 12;
+		else if (Global.selectedMap === 2) this.maxScore = 15;
 
-		this.isGameOver = false;
 		this.currentQuestion = 1;
 
 		this.createRandomQuestionsQueue();
@@ -37,14 +48,6 @@ var playState = {
 		}
 	},
 	createPlayers: function() {
-		var avaXstart = 10;
-		var avaYstart = 180;
-		var avaYspace = 75;  // space between avatars
-
-		var heroXstart = 800;
-		var heroXspace = 80;  // space between heroes
-		var heroYstart = 1000;
-
 		this.players = [];
 		Global.players.forEach(function(player, i){
 			var p = game.add.group();
@@ -173,12 +176,11 @@ var playState = {
 		var isEndGame = false;
 		this.players.forEach(function(player, i) {
 			game.add.tween(player.hero).to({
-				x: 0,
-				y: 0
+				y: heroYstart - ladderHeight * player.score
 			}, 1000, Phaser.Easing.Quintic.Out, true, 0);
-			if (player.score === this.maxScore[Global.selectedMap])
+			if (player.score === this.maxScore)
 				isEndGame = true;
-		});
+		}, this);
 
         if (isEndGame) {
             game.time.events.add(5000, function() {

@@ -22,8 +22,10 @@ var preloadState = {
 			var color = Global.knightColors[i];
 			var knightFrontImgName = 'KnightFront'+color;
 			var knightClimbingName = 'KnightClimbing'+color;
+			var flagName = 'Flag'+color;
 			game.load.image(knightFrontImgName, 'assets/knights/'+knightFrontImgName+'.png');
 			game.load.image(knightClimbingName, 'assets/knights/'+knightClimbingName+'.png');
+			game.load.image(flagName, 'assets/flags/'+color+'.png');
 		}
 		
 		game.load.video('video', 'assets/video.mp4');
