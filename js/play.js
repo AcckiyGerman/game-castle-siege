@@ -6,8 +6,8 @@ var heroXstart = 800;
 var heroXspace = 80;  // space between heroes
 var heroYstart = 1000;
 
-var ladderHeight = 40;
-var ladderYstart = 960;
+var ladderHeight = 35;
+var ladderYstart = 1020;
 
 
 var playState = {
@@ -46,9 +46,7 @@ var playState = {
 		this.btnSubmit.anchor.setTo(.5, 0);
 		this.game.world.add(this.btnSubmit);
 
-		if (Global.selectedMap === 0) this.maxScore = 7;
-		else if (Global.selectedMap === 1) this.maxScore = 12;
-		else if (Global.selectedMap === 2) this.maxScore = 15;
+		this.maxScore = Global.minQuestions;
 
 		this.currentQuestion = 1;
 
