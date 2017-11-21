@@ -14,10 +14,17 @@ var preloadState = {
 		game.load.image('map0', 'assets/map0.png');
 		game.load.image('map1', 'assets/map1.png');
 		game.load.image('map2', 'assets/map2.png');
-
 		//game.load.image('question_bg', 'assets/question_bg.png');
-		game.load.image('winner_bg', 'assets/winner_bg.png');
 
+		// gameplay assets
+		game.load.image('Archer', 'assets/gameplay/Archer.png');
+		game.load.image('ArcherFire', 'assets/gameplay/Archer.png');
+		game.load.image('Arrow', 'assets/gameplay/Arrow.png');
+		game.load.image('Ladder', 'assets/gameplay/Ladder.png');
+		game.load.image('LadderOnFire', 'assets/gameplay/LadderOnFire.png');
+		game.load.image('PlayersBoard', 'assets/gameplay/PlayersBoard.png');
+
+		// load assets with different colors
 		for (var i in Global.knightColors){
 			var color = Global.knightColors[i];
 			var knightFrontImgName = 'KnightFront'+color;
