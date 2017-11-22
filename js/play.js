@@ -147,7 +147,8 @@ var playState = {
                 var ladder = game.add.sprite(player.hero.x, 0, "Ladder", 0);
                 ladder.y = ladderYstart - player.score*ladderHeight;
                 ladder.anchor.setTo(.5, .5);
-                player.ladder.push(ladder)
+                player.ladder.push(ladder);
+				player.hero.bringToTop()
             }
 
 			if (player.score === this.maxScore)
@@ -206,10 +207,12 @@ var playState = {
 	},
 	animateRepositions: function() {
 		var isEndGame = false;
-		this.players.forEach(function(player, i) {
-			game.add.tween(player.hero).to({
-				y: heroYstart - ladderHeight * player.score
-			}, 1000, Phaser.Easing.Quintic.Out, true, 0);
+		this.players.forEach(function(player) {
+			if (player.score > 1) {
+                game.add.tween(player.hero).to({
+                    y: heroYstart - ladderHeight * player.score
+                }, 1000, Phaser.Easing.Quintic.Out, true, 0);
+            }
 			if (player.score === this.maxScore)
 				isEndGame = true;
 		}, this);
