@@ -9,6 +9,8 @@ var heroYstart = 1000;
 var ladderHeight = 35;
 var ladderYstart = 1020;
 
+var archerX = 1600;
+var archerY = 0;
 
 var playState = {
 	randomQueue: [],
@@ -17,7 +19,7 @@ var playState = {
 
         // THIS IS FOR DEBUG PURPOSES:
         Global = {
-            "minQuestions":7,
+            "minQuestions":15,
             "questions":[
                 {"q":"question 1"},
                 {"q":"medium medium question question"},
@@ -30,16 +32,16 @@ var playState = {
                 {"name":"Launcelot","avatar":"Black","score":0,"position":0},
                 {"name":"Gawain","avatar":"Blue","score":0,"position":0},
                 {"name":"Percivale","avatar":"Brown","score":0,"position":0},
-                // {"name":"Lionel","avatar":"Green","score":0,"position":0},
-                // {"name":"Tristram","avatar":"Orange","score":0,"position":0},
-                // {"name":"Gareth","avatar":"Pink","score":0,"position":0},
-                // {"name":"Bleoberis","avatar":"Purple","score":0,"position":0},
-                // {"name":"Lacotemale","avatar":"Red","score":0,"position":0},
-                // {"name":"Lucan","avatar":"White","score":0,"position":0},
-                // {"name":"Lamorak","avatar":"Yellow","score":0,"position":0}
+                {"name":"Lionel","avatar":"Green","score":0,"position":0},
+                {"name":"Tristram","avatar":"Orange","score":0,"position":0},
+                {"name":"Gareth","avatar":"Pink","score":0,"position":0},
+                {"name":"Bleoberis","avatar":"Purple","score":0,"position":0},
+                {"name":"Lacotemale","avatar":"Red","score":0,"position":0},
+                {"name":"Lucan","avatar":"White","score":0,"position":0},
+                {"name":"Lamorak","avatar":"Yellow","score":0,"position":0}
             ],
-            "numberOfKnights":1,
-            "selectedMap":0,
+            "numberOfKnights":10,
+            "selectedMap":2,
             "showQuestions":true,
             "archerAttacks":true,
             "knightColors":["Black","Blue","Brown","Green","Orange","Pink","Purple","Red","White","Yellow"],
@@ -59,9 +61,23 @@ var playState = {
 
 		this.currentQuestion = 1;
 
-		this.createRandomQuestionsQueue();
 		this.createPlayers();
-		
+
+		if (Global.selectedMap == 0) archerY = 600;
+		if (Global.selectedMap == 1) archerY = 450;
+		if (Global.selectedMap == 2) archerY = 350;
+
+
+		if (Global.archerAttacks) {
+            this.archer = game.add.sprite(archerX, archerY, 'Archer');
+            this.archer.anchor.setTo(0.5, 0.5);
+            //this.archer.visible = false;
+        }
+        this.archerActive = false;
+        this.round = 0;  // every 4-th round the archer appears
+
+
+        this.createRandomQuestionsQueue();
 		this.questionBar = game.add.group();
 		this.questionBar.bg = game.add.sprite(50, 30, "question_bg", 0, this.questionBar);
 		this.questionBar.txt = game.add.text(700, 45, Global.questions[this.randomQueue[0]].q, standarTextBlack, this.questionBar);
@@ -160,6 +176,12 @@ var playState = {
                 ladder.anchor.setTo(.5, .5);
                 player.ladder.push(ladder);
 				player.hero.bringToTop()
+            } else {
+			    if (this.archerActive && player.score > 1) {
+                    Global.players[player.id].score--;
+                    player.score--;
+                    this.archerAttackPlayer(player)
+                }
             }
 
 			if (player.score === this.maxScore)
@@ -170,7 +192,11 @@ var playState = {
 			player.btnCorrect.visible = false;
 			player.btnWrong.visible = false;
 			player.txtTitle.setText(Global.players[player.id].name);
-		});
+		}, this);
+
+		// reset Archer and question bg color
+		this.archerActive = false;
+        this.questionBar.bg.loadTexture('question_bg');  // reset bg color
 		
 		if (doWeHaveAWinner)
 			game.add.audio("answered_top").play();
@@ -187,6 +213,17 @@ var playState = {
 			}, 1000, Phaser.Easing.Quintic.Out, true, 0);
 	},
 	showQuestion: function() {
+	    // archer logic
+        this.round++;
+        if (this.round % 4 === 0 && Global.archerAttacks)
+            this.archerActive = true;
+
+        if (this.archerActive){
+            this.archer.loadTexture("ArcherFire");
+            game.add.audio("arrowSwoosh").play();
+            this.questionBar.bg.loadTexture('question_red')
+        }
+
 		game.add.tween(this.questionBar).to({
 				y: 0
 		}, 1000, Phaser.Easing.Quintic.Out, true, 0);
@@ -243,5 +280,12 @@ var playState = {
                 this.enableLeftButtons();
             }, this);
         }
-	}
+	},
+    archerAttackPlayer: function(player){
+        // shoot
+        var arrow = this.game.add.sprite()
+        // ladder in fire
+
+        // player fall
+    }
 };

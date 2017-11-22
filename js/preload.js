@@ -15,10 +15,11 @@ var preloadState = {
 		game.load.image('map1', 'assets/map1.png');
 		game.load.image('map2', 'assets/map2.png');
 		game.load.image('question_bg', 'assets/question_bg.png');
+        game.load.image('question_red', 'assets/question_red.png');
 
 		// gameplay assets
 		game.load.image('Archer', 'assets/gameplay/Archer.png');
-		game.load.image('ArcherFire', 'assets/gameplay/Archer.png');
+		game.load.image('ArcherFire', 'assets/gameplay/ArcherFire.png');
 		game.load.image('Arrow', 'assets/gameplay/Arrow.png');
 		game.load.image('Ladder', 'assets/gameplay/Ladder.png');
 		game.load.image('LadderOnFire', 'assets/gameplay/LadderOnFire.png');
@@ -41,6 +42,7 @@ var preloadState = {
 		game.load.audio("answered", ["assets/audio/answered.mp3"]);
 		game.load.audio("answered_top", ["assets/audio/answered_top.mp3"]);
 		game.load.audio("night_in_the_castle", ["assets/audio/night_in_the_castle.mp3"]);
+		game.load.audio("arrowSwoosh", "assets/audio/arrowSwoosh.mp3");
 		this.isNextStageStarted = false;
 	},
 	update: function() {
