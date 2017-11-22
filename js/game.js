@@ -29,7 +29,7 @@ function startGame() {
 	game.state.add("questions", questionsState);
 	game.state.add("climbers", climbersState);
 	game.state.add("play", playState);
-	game.state.add("winner", winnerState);
+	// game.state.add("winner", winnerState);
 	game.state.add("boot", bootState, true);
 	
 	Global.questions = [];
