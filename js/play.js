@@ -18,7 +18,14 @@ var playState = {
         // THIS IS FOR DEBUG PURPOSES:
         Global = {
             "minQuestions":7,
-            "questions":[{"q":"1"},{"q":"2"},{"q":"3"},{"q":"4"},{"q":"5"},{"q":"6"},{"q":"7"}],
+            "questions":[
+                {"q":"question 1"},
+                {"q":"medium medium question question"},
+                {"q":"long long long question question question"},
+                {"q":"very long very long very long very long question question question question "},
+                {"q":"very long very long very long very long question question question question  very long very question question "},
+                {"q":"question 6"},
+                {"q":"very long very long very long very long question question question question  very long very question question "}],
             "players":[
                 {"name":"Launcelot","avatar":"Black","score":0,"position":0},
                 // {"name":"Gawain","avatar":"Blue","score":0,"position":0},
@@ -33,7 +40,7 @@ var playState = {
             ],
             "numberOfKnights":1,
             "selectedMap":0,
-            "showQuestions":false,
+            "showQuestions":true,
             "archerAttacks":true,
             "knightColors":["Black","Blue","Brown","Green","Orange","Pink","Purple","Red","White","Yellow"],
             "knightNames":["Launcelot","Gawain","Percivale","Lionel","Tristram","Gareth","Bleoberis","Lacotemale","Lucan","Lamorak"]
@@ -56,8 +63,8 @@ var playState = {
 		this.createPlayers();
 		
 		this.questionBar = game.add.group();
-		//this.questionBar.bg = game.add.sprite(13, 10, "question_bg", 0, this.questionBar);
-		this.questionBar.txt = game.add.text(200, 75, Global.questions[this.randomQueue[0]].q, standarTextBlack, this.questionBar);
+		this.questionBar.bg = game.add.sprite(50, 30, "question_bg", 0, this.questionBar);
+		this.questionBar.txt = game.add.text(700, 45, Global.questions[this.randomQueue[0]].q, standarTextBlack, this.questionBar);
 		this.questionBar.txt.anchor.setTo(.5, 0);
 		this.questionBar.y = -200;
 		this.showQuestion();
@@ -211,7 +218,7 @@ var playState = {
 	animateRepositions: function() {
 		var isEndGame = false;
 		this.players.forEach(function(player) {
-			if (player.score > 1) {
+			if (player.score) {
                 game.add.tween(player.hero).to({
                     y: heroYstart - ladderHeight * player.score
                 }, 1000, Phaser.Easing.Quintic.Out, true, 0);
