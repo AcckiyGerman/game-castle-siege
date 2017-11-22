@@ -41,7 +41,9 @@ var playState = {
         // ^^^ DELETE THIS UPPER ^^^
 
 		this.add.image(0, 0, "map" + Global.selectedMap);
-		
+		var playersBoard = this.add.image(5, 180, 'PlayersBoard');
+		playersBoard.scale.setTo(1.3, 0.115*Global.players.length);
+
 		this.btnSubmit = new ButtonX(this.game, 247, 940, "buttons", this.onSubmitClicked, this, "SubmitBTN");
 		this.btnSubmit.anchor.setTo(.5, 0);
 		this.game.world.add(this.btnSubmit);
@@ -87,9 +89,9 @@ var playState = {
 			p.avatar = game.add.sprite(0, 0, 'KnightFront'+player.avatar, 0, p);
 			p.avatar.scale.setTo(0.5, 0.5);
 
-			p.btnCorrect = new ButtonX(this.game, 342, 30, "misc", this.onCorrectClicked, p, "btn_correct");
+			p.btnCorrect = new ButtonX(this.game, 342, 30, "buttons", this.onCorrectClicked, p, "V");
 			p.add(p.btnCorrect);
-			p.btnWrong = new ButtonX(this.game, 420, 30, "misc", this.onWrongClicked, p, "btn_wrong");
+			p.btnWrong = new ButtonX(this.game, 420, 30, "buttons", this.onWrongClicked, p, "X");
 			p.add(p.btnWrong);
 			p.imgCorrect = new ButtonX(this.game, p.btnCorrect.x, p.btnCorrect.y, "misc", this.onCorrectClicked, p, "img_correct");
 			p.add(p.imgCorrect);
@@ -144,6 +146,7 @@ var playState = {
 			if (player.imgCorrect.visible === true) {
                 Global.players[player.id].score++;
                 player.score++;
+
                 var ladder = game.add.sprite(player.hero.x, 0, "Ladder", 0);
                 ladder.y = ladderYstart - player.score*ladderHeight;
                 ladder.anchor.setTo(.5, .5);
