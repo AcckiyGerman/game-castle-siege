@@ -329,8 +329,8 @@ var playState = {
         // show game over sign and 'restart game' button
         var victory = game.add.sprite(game.width/2, game.height/4, 'Victory');
         victory.anchor.setTo(0.5, 0.5);
-        this.newGame = new ButtonX(this.game, game.width/2, game.height*3/4,
-            "buttons", this.startNewGame, this, "StartGameBTN");
+        this.newGame = new ButtonX(this.game, game.width*9/10, game.height*7/8,
+            "buttons", this.startNewGame, this, "NewGameBTN");
         this.newGame.anchor.setTo(0.5, 0.5);
         this.game.world.add(this.newGame);
     },
