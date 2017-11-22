@@ -58,9 +58,8 @@ var playState = {
 		this.game.world.add(this.btnSubmit);
 
 		this.maxScore = Global.minQuestions;
-
+        this.winners = []
 		this.currentQuestion = 1;
-
 		this.createPlayers();
 
 		if (Global.selectedMap == 0) archerY = 600;
@@ -184,8 +183,10 @@ var playState = {
                 }
             }
 
-			if (player.score === this.maxScore)
-				doWeHaveAWinner = true;
+			if (player.score === this.maxScore) {
+                doWeHaveAWinner = true;
+                this.winners.push(player)
+            }
 
 			player.imgCorrect.visible = false;
 			player.imgWrong.visible = false;
@@ -198,14 +199,14 @@ var playState = {
 		this.archerActive = false;
         this.questionBar.bg.loadTexture('question_bg');  // reset bg color
 		
-		if (doWeHaveAWinner)
+		if (doWeHaveAWinner){
 			game.add.audio("answered_top").play();
-		else
-			game.add.audio("answered").play();
-
-		this.animateRepositions();
-		this.hideQuestion();
-		
+		    this.congratWinner()
+		} else {
+            game.add.audio("answered").play();
+            this.animateRepositions();
+            this.hideQuestion();
+		}
 	},
 	hideQuestion: function() {
 		game.add.tween(this.questionBar).to({
@@ -285,11 +286,8 @@ var playState = {
         // shoot
         var arrow = this.game.add.sprite(this.archer.x - 20, this.archer.y, 'Arrow', 0);
         arrow.anchor.setTo(0, 1);
-
         var ladderPiece = player.ladder[player.ladder.length-1];
-
         if (!ladderPiece) return; // another error check
-
 
         // shoot the arrow
         this.archer.loadTexture("Archer");
@@ -309,5 +307,18 @@ var playState = {
                     player.ladder.length--;
                 }, 5000)
         }, this)
+    },
+    congratWinner: function(){
+        this.winners.forEach(function(p){
+            game.add.tween(p.hero).to({
+                y: p.hero.y - ladderHeight*3
+            }, 1000, Phaser.Easing.Quintic.Out, true, 0)
+                .onComplete.add(function(){
+                    p.hero.loadTexture("KnightFront"+p.color);
+                    var flag = game.add.sprite(p.hero.x, p.hero.y, 'Flag'+p.color);
+                    flag.anchor.setTo(0.4, 0.75);
+                }, this)
+        }, this)
+
     }
 };
