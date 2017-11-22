@@ -28,11 +28,11 @@ var playState = {
                 {"q":"very long very long very long very long question question question question  very long very question question "}],
             "players":[
                 {"name":"Launcelot","avatar":"Black","score":0,"position":0},
-                // {"name":"Gawain","avatar":"Blue","score":0,"position":0},
-                // {"name":"Percivale","avatar":"Brown","score":0,"position":0},
-                // {"name":"Lionel","avatar":"Green","score":0,"position":0},
-                // {"name":"Tristram","avatar":"Orange","score":0,"position":0},
-                // {"name":"Gareth","avatar":"Pink","score":0,"position":0},
+                {"name":"Gawain","avatar":"Blue","score":0,"position":0},
+                {"name":"Percivale","avatar":"Brown","score":0,"position":0},
+                {"name":"Lionel","avatar":"Green","score":0,"position":0},
+                {"name":"Tristram","avatar":"Orange","score":0,"position":0},
+                {"name":"Gareth","avatar":"Pink","score":0,"position":0},
                 // {"name":"Bleoberis","avatar":"Purple","score":0,"position":0},
                 // {"name":"Lacotemale","avatar":"Red","score":0,"position":0},
                 // {"name":"Lucan","avatar":"White","score":0,"position":0},
@@ -89,6 +89,7 @@ var playState = {
 			p.id = i;
 			p.currentPosition = 1;
 			p.score = 0;
+			p.color = player.avatar;
 			Global.players[i].score = 0;
 
 			// Creating list of players and answer buttons on the left part of the screen
@@ -110,10 +111,10 @@ var playState = {
 			p.x = avaXstart;
 			p.y = avaYstart + i*avaYspace;
 
-			// Creating list of heroes on the game scene
-            p.hero = game.add.sprite(0, 0, "KnightClimbing"+player.avatar, 0);
-            p.hero.anchor.setTo(.5, .5);
-            p.hero.scale.setTo(0.7, 0.7);
+			// Creating list of heroes on the starting positions
+            p.hero = game.add.sprite(0, 0, "KnightFront"+player.avatar, 0);
+            //p.hero.anchor.setTo(.5, .5);
+            //p.hero.scale.setTo(0.7, 0.7);
             p.hero.x = heroXstart + i*heroXspace;
             p.hero.y = heroYstart;
 
@@ -218,7 +219,11 @@ var playState = {
 	animateRepositions: function() {
 		var isEndGame = false;
 		this.players.forEach(function(player) {
-			if (player.score) {
+			if (player.score == 1) {
+                player.hero.loadTexture("KnightClimbing" + player.color, 0);
+                player.hero.anchor.setTo(.5, .5);
+                player.hero.scale.setTo(0.7, 0.7);
+            } else if (player.score > 1){
                 game.add.tween(player.hero).to({
                     y: heroYstart - ladderHeight * player.score
                 }, 1000, Phaser.Easing.Quintic.Out, true, 0);
