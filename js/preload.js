@@ -16,6 +16,7 @@ var preloadState = {
 		game.load.image('map2', 'assets/map2.png');
 		game.load.image('question_bg', 'assets/question_bg.png');
         game.load.image('question_red', 'assets/question_red.png');
+        game.load.image('Victory', 'assets/Victory.png');
 
 		// gameplay assets
 		game.load.image('Archer', 'assets/gameplay/Archer.png');
@@ -37,7 +38,7 @@ var preloadState = {
 		}
 		
 		game.load.video('video', 'assets/video.mp4');
-		game.load.atlasXML("misc", "assets/~misc.png", "assets/~misc.xml"); // buttons from the old game
+		game.load.atlasXML("misc", "assets/misc.png", "assets/misc.xml"); // buttons from the old game
         game.load.atlasJSONHash('buttons', 'assets/buttons.png', 'assets/buttons.json');
 		game.load.audio("answered", ["assets/audio/answered.mp3"]);
 		game.load.audio("answered_top", ["assets/audio/answered_top.mp3"]);
@@ -51,7 +52,7 @@ var preloadState = {
 				this.isNextStageStarted = true;
 				// game should start with 'menu' scene
 				// you can change it for debug
-				this.game.state.start('play');
+				this.game.state.start('menu');
 			}
 		} 
     }

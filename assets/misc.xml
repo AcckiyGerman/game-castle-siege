@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
+<!-- $TexturePacker:SmartUpdate:bebe4962b845fa1e16f47e8a21fef539:1b1947bb946a0e1301342ba99aaa7820:d4636b618e7ec6cae7618c751b7651e5$ -->
+<TextureAtlas imagePath="misc.png" width="1716" height="474">
+    <SubTexture name="img_correct" x="0" y="0" width="50" height="42"/>
+    <SubTexture name="img_wrong" x="50" y="0" width="50" height="46"/>
+    <SubTexture name="btn_correct" x="100" y="0" width="64" height="59"/>
+    <SubTexture name="btn_wrong" x="164" y="0" width="64" height="59"/>
+    <SubTexture name="btn_next" x="228" y="0" width="342" height="96"/>
+    <SubTexture name="btn_new_game" x="570" y="0" width="382" height="117"/>
+    <SubTexture name="btn_load_game" x="952" y="0" width="382" height="117"/>
+    <SubTexture name="btn_end" x="1334" y="0" width="382" height="117"/>
+    <SubTexture name="btn_submit" x="0" y="117" width="382" height="117"/>
+    <SubTexture name="btn_yes_down" x="382" y="117" width="177" height="119"/>
+    <SubTexture name="btn_mountain_2_down" x="559" y="117" width="370" height="119"/>
+    <SubTexture name="btn_mountain_3" x="929" y="117" width="370" height="119"/>
+    <SubTexture name="btn_no_down" x="1299" y="117" width="177" height="119"/>
+    <SubTexture name="btn_yes" x="1476" y="117" width="177" height="119"/>
+    <SubTexture name="btn_no" x="0" y="236" width="177" height="119"/>
+    <SubTexture name="btn_mountain_3_down" x="177" y="236" width="370" height="119"/>
+    <SubTexture name="btn_mountain_2" x="547" y="236" width="370" height="119"/>
+    <SubTexture name="btn_mountain_1" x="917" y="236" width="370" height="119"/>
+    <SubTexture name="btn_3_down" x="1287" y="236" width="114" height="119"/>
+    <SubTexture name="btn_mountain_1_down" x="0" y="355" width="370" height="119"/>
+    <SubTexture name="btn_3" x="370" y="355" width="114" height="119"/>
+    <SubTexture name="btn_2" x="484" y="355" width="114" height="119"/>
+    <SubTexture name="btn_1_down" x="598" y="355" width="114" height="119"/>
+    <SubTexture name="btn_2_down" x="712" y="355" width="114" height="119"/>
+    <SubTexture name="btn_4" x="826" y="355" width="114" height="119"/>
+    <SubTexture name="btn_1" x="940" y="355" width="114" height="119"/>
+    <SubTexture name="btn_4_down" x="1054" y="355" width="114" height="119"/>
+    <SubTexture name="btn_6_down" x="1168" y="355" width="114" height="119"/>
+    <SubTexture name="btn_5_down" x="1282" y="355" width="114" height="119"/>
+    <SubTexture name="btn_5" x="1396" y="355" width="114" height="119"/>
+    <SubTexture name="btn_6" x="1510" y="355" width="114" height="119"/>
+</TextureAtlas>

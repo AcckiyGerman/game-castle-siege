@@ -17,37 +17,37 @@ var playState = {
 	players: [],
     create: function() {
 
-        // THIS IS FOR DEBUG PURPOSES:
-        Global = {
-            "minQuestions":7,
-            "questions":[
-                {"q":"question 1"},
-                {"q":"medium medium question question"},
-                {"q":"long long long question question question"},
-                {"q":"very long very long very long very long question question question question "},
-                {"q":"very long very long very long very long question question question question  very long very question question "},
-                {"q":"question 6"},
-                {"q":"very long very long very long very long question question question question  very long very question question "}],
-            "players":[
-                {"name":"Launcelot","avatar":"Black","score":0,"position":0},
-                {"name":"Gawain","avatar":"Blue","score":0,"position":0},
-                {"name":"Percivale","avatar":"Brown","score":0,"position":0},
-                {"name":"Lionel","avatar":"Green","score":0,"position":0},
-                {"name":"Tristram","avatar":"Orange","score":0,"position":0},
-                {"name":"Gareth","avatar":"Pink","score":0,"position":0},
-                {"name":"Bleoberis","avatar":"Purple","score":0,"position":0},
-                {"name":"Lacotemale","avatar":"Red","score":0,"position":0},
-                {"name":"Lucan","avatar":"White","score":0,"position":0},
-                {"name":"Lamorak","avatar":"Yellow","score":0,"position":0}
-            ],
-            "numberOfKnights":10,
-            "selectedMap":0,
-            "showQuestions":true,
-            "archerAttacks":true,
-            "knightColors":["Black","Blue","Brown","Green","Orange","Pink","Purple","Red","White","Yellow"],
-            "knightNames":["Launcelot","Gawain","Percivale","Lionel","Tristram","Gareth","Bleoberis","Lacotemale","Lucan","Lamorak"]
-        };
-        // ^^^ DELETE THIS UPPER ^^^
+        // THIS IS FOR DEBUG PURPOSES, WHEN STARTING THE 'PLAY' STATE DIRECTLY:
+        // Global = {
+        //     "minQuestions":7,
+        //     "questions":[
+        //         {"q":"question 1"},
+        //         {"q":"medium medium question question"},
+        //         {"q":"long long long question question question"},
+        //         {"q":"very long very long very long very long question question question question "},
+        //         {"q":"very long very long very long very long question question question question  very long very question question "},
+        //         {"q":"question 6"},
+        //         {"q":"very long very long very long very long question question question question  very long very question question "}],
+        //     "players":[
+        //         {"name":"Launcelot","avatar":"Black","score":0,"position":0},
+        //         {"name":"Gawain","avatar":"Blue","score":0,"position":0},
+        //         {"name":"Percivale","avatar":"Brown","score":0,"position":0},
+        //         {"name":"Lionel","avatar":"Green","score":0,"position":0},
+        //         {"name":"Tristram","avatar":"Orange","score":0,"position":0},
+        //         {"name":"Gareth","avatar":"Pink","score":0,"position":0},
+        //         {"name":"Bleoberis","avatar":"Purple","score":0,"position":0},
+        //         {"name":"Lacotemale","avatar":"Red","score":0,"position":0},
+        //         {"name":"Lucan","avatar":"White","score":0,"position":0},
+        //         {"name":"Lamorak","avatar":"Yellow","score":0,"position":0}
+        //     ],
+        //     "numberOfKnights":10,
+        //     "selectedMap":0,
+        //     "showQuestions":true,
+        //     "archerAttacks":true,
+        //     "knightColors":["Black","Blue","Brown","Green","Orange","Pink","Purple","Red","White","Yellow"],
+        //     "knightNames":["Launcelot","Gawain","Percivale","Lionel","Tristram","Gareth","Bleoberis","Lacotemale","Lucan","Lamorak"]
+        // };
+        // ^^^ COMMENT THIS AFTER ^^^
 
 		this.add.image(0, 0, "map" + Global.selectedMap);
 		var playersBoard = this.add.image(5, 180, 'PlayersBoard');
@@ -58,7 +58,7 @@ var playState = {
 		this.game.world.add(this.btnSubmit);
 
 		this.maxScore = Global.minQuestions;
-        this.winners = []
+        this.winners = [];
 		this.currentQuestion = 1;
 		this.createPlayers();
 
@@ -201,7 +201,8 @@ var playState = {
 		
 		if (doWeHaveAWinner){
 			game.add.audio("answered_top").play();
-		    this.congratWinner()
+		    this.congratWinner();
+            this.hideQuestion();
 		} else {
             game.add.audio("answered").play();
             this.animateRepositions();
@@ -299,7 +300,12 @@ var playState = {
         }, 1000, Phaser.Easing.Quintic.Out, true, 0)
             //set ladder in fire when arrow hit it
             .onComplete.add(function(arrow){
-                ladderPiece.loadTexture('LadderOnFire');
+                try {
+                    ladderPiece.loadTexture('LadderOnFire');
+                } catch (err) {
+                    console.error(err);
+                    return;
+                }
                 setTimeout(function(){
                     // destroy the burning ladder
                     ladderPiece.destroy();
@@ -316,9 +322,20 @@ var playState = {
                 .onComplete.add(function(){
                     p.hero.loadTexture("KnightFront"+p.color);
                     var flag = game.add.sprite(p.hero.x, p.hero.y, 'Flag'+p.color);
-                    flag.anchor.setTo(0.4, 0.75);
+                    flag.anchor.setTo(0.4, 0.8);
                 }, this)
-        }, this)
+        }, this);
+
+        // show game over sign and 'restart game' button
+        var victory = game.add.sprite(game.width/2, game.height/4, 'Victory');
+        victory.anchor.setTo(0.5, 0.5);
+        this.newGame = new ButtonX(this.game, game.width/2, game.height*3/4,
+            "buttons", this.startNewGame, this, "StartGameBTN");
+        this.newGame.anchor.setTo(0.5, 0.5);
+        this.game.world.add(this.newGame);
+    },
+    startNewGame: function(){
+        this.game.state.start('menu')
 
     }
 };
