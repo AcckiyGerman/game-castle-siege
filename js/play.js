@@ -19,7 +19,7 @@ var playState = {
 
         // THIS IS FOR DEBUG PURPOSES:
         Global = {
-            "minQuestions":15,
+            "minQuestions":7,
             "questions":[
                 {"q":"question 1"},
                 {"q":"medium medium question question"},
@@ -41,7 +41,7 @@ var playState = {
                 {"name":"Lamorak","avatar":"Yellow","score":0,"position":0}
             ],
             "numberOfKnights":10,
-            "selectedMap":2,
+            "selectedMap":0,
             "showQuestions":true,
             "archerAttacks":true,
             "knightColors":["Black","Blue","Brown","Green","Orange","Pink","Purple","Red","White","Yellow"],
@@ -170,7 +170,7 @@ var playState = {
 			if (player.imgCorrect.visible === true) {
                 Global.players[player.id].score++;
                 player.score++;
-
+                // build ladder piece
                 var ladder = game.add.sprite(player.hero.x, 0, "Ladder", 0);
                 ladder.y = ladderYstart - player.score*ladderHeight;
                 ladder.anchor.setTo(.5, .5);
@@ -264,7 +264,7 @@ var playState = {
             } else if (player.score > 1){
 			    // go one step higher
                 game.add.tween(player.hero).to({
-                    y: heroYstart - ladderHeight * player.score
+                    y: heroYstart - ladderHeight * (player.score-1)
                 }, 1000, Phaser.Easing.Quintic.Out, true, 0);
             }
 			if (player.score === this.maxScore)
@@ -283,9 +283,31 @@ var playState = {
 	},
     archerAttackPlayer: function(player){
         // shoot
-        var arrow = this.game.add.sprite()
-        // ladder in fire
+        var arrow = this.game.add.sprite(this.archer.x - 20, this.archer.y, 'Arrow', 0);
+        arrow.anchor.setTo(0, 1);
 
-        // player fall
+        var ladderPiece = player.ladder[player.ladder.length-1];
+
+        if (!ladderPiece) return; // another error check
+
+
+        // shoot the arrow
+        this.archer.loadTexture("Archer");
+        game.add.audio("arrowSwoosh").play();
+        game.add.tween(arrow).to({
+            x: player.hero.x,
+            y: heroYstart - ladderHeight * player.score,
+            angle: -50
+        }, 1000, Phaser.Easing.Quintic.Out, true, 0)
+            //set ladder in fire when arrow hit it
+            .onComplete.add(function(arrow){
+                ladderPiece.loadTexture('LadderOnFire');
+                setTimeout(function(){
+                    // destroy the burning ladder
+                    ladderPiece.destroy();
+                    arrow.destroy();
+                    player.ladder.length--;
+                }, 5000)
+        }, this)
     }
 };
