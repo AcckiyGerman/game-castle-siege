@@ -38,8 +38,8 @@ var preloadState = {
 		game.load.video('video', 'assets/video.mp4');
 		game.load.atlasXML("misc", "assets/~misc.png", "assets/~misc.xml"); // buttons from the old game
         game.load.atlasJSONHash('buttons', 'assets/buttons.png', 'assets/buttons.json');
-		game.load.audio("answered", ["assets/audio/answered.ogg", "assets/audio/answered.mp3"]);
-		game.load.audio("answered_top", ["assets/audio/answered_top.ogg", "assets/audio/answered_top.mp3"]);
+		game.load.audio("answered", ["assets/audio/answered.mp3"]);
+		game.load.audio("answered_top", ["assets/audio/answered_top.mp3"]);
 		game.load.audio("night_in_the_castle", ["assets/audio/night_in_the_castle.mp3"]);
 		this.isNextStageStarted = false;
 	},
