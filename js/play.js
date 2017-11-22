@@ -30,9 +30,9 @@ var playState = {
                 {"name":"Launcelot","avatar":"Black","score":0,"position":0},
                 {"name":"Gawain","avatar":"Blue","score":0,"position":0},
                 {"name":"Percivale","avatar":"Brown","score":0,"position":0},
-                {"name":"Lionel","avatar":"Green","score":0,"position":0},
-                {"name":"Tristram","avatar":"Orange","score":0,"position":0},
-                {"name":"Gareth","avatar":"Pink","score":0,"position":0},
+                // {"name":"Lionel","avatar":"Green","score":0,"position":0},
+                // {"name":"Tristram","avatar":"Orange","score":0,"position":0},
+                // {"name":"Gareth","avatar":"Pink","score":0,"position":0},
                 // {"name":"Bleoberis","avatar":"Purple","score":0,"position":0},
                 // {"name":"Lacotemale","avatar":"Red","score":0,"position":0},
                 // {"name":"Lucan","avatar":"White","score":0,"position":0},
@@ -220,10 +220,12 @@ var playState = {
 		var isEndGame = false;
 		this.players.forEach(function(player) {
 			if (player.score == 1) {
+			    // go to ladder
                 player.hero.loadTexture("KnightClimbing" + player.color, 0);
                 player.hero.anchor.setTo(.5, .5);
                 player.hero.scale.setTo(0.7, 0.7);
             } else if (player.score > 1){
+			    // go one step higher
                 game.add.tween(player.hero).to({
                     y: heroYstart - ladderHeight * player.score
                 }, 1000, Phaser.Easing.Quintic.Out, true, 0);
