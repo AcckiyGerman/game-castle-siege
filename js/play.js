@@ -57,7 +57,10 @@ var playState = {
 		this.btnSubmit.anchor.setTo(.5, 0);
 		this.game.world.add(this.btnSubmit);
 
-		this.maxScore = Global.minQuestions;
+        if (Global.selectedMap == 0) this.maxScore = 7;
+        if (Global.selectedMap == 1) this.maxScore = 12;
+        if (Global.selectedMap == 2) this.maxScore = 15;
+
         this.winners = [];
 		this.currentQuestion = 1;
 		this.createPlayers();

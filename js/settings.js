@@ -108,9 +108,9 @@ var settingsState = {
 		}, this);
 
 		var noOfQuestions = 7;
-		if (Global.selectedMap == 0) noOfQuestions = 7;
-		if (Global.selectedMap == 1) noOfQuestions = 12;
-		if (Global.selectedMap == 2) noOfQuestions = 15;
+		if (Global.selectedMap == 0) noOfQuestions = 10;
+		if (Global.selectedMap == 1) noOfQuestions = 15;
+		if (Global.selectedMap == 2) noOfQuestions = 20;
 		
 		
 		Global.minQuestions = noOfQuestions;
