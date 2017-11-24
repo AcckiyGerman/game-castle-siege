@@ -117,13 +117,13 @@ var playState = {
 		Global.players.forEach(function(player, i){
 			var p = game.add.group();
 			p.id = i;
-			p.currentPosition = 1;
+			//p.currentPosition = 1;
 			p.score = 0;
 			p.color = player.avatar;
 			Global.players[i].score = 0;
 
 			// Creating list of players and answer buttons on the left part of the screen
-			p.txtTitle = game.add.text(50, 20, p.currentPosition + ". " + Global.players[i].name, standarTextBlack, p);
+			p.txtTitle = game.add.text(50, 20, Global.players[i].name, standarTextBlack, p);
 			p.avatar = game.add.sprite(0, 0, 'KnightFront'+player.avatar, 0, p);
 			p.avatar.scale.setTo(0.5, 0.5);
 
