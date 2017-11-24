@@ -40,8 +40,8 @@ var preloadState = {
 		game.load.video('video', 'assets/video.mp4');
 		game.load.atlasXML("misc", "assets/misc.png", "assets/misc.xml"); // buttons from the old game
         game.load.atlasJSONHash('buttons', 'assets/buttons.png', 'assets/buttons.json');
-		game.load.audio("answered", ["assets/audio/answered.mp3"]);
-		game.load.audio("answered_top", ["assets/audio/answered_top.mp3"]);
+		game.load.audio("correctAnswerBell", ["assets/audio/correctAnswerBell.mp3"]);
+		game.load.audio("drums", ["assets/audio/drums.mp3"]);
 		game.load.audio("night_in_the_castle", ["assets/audio/night_in_the_castle.mp3"]);
 		game.load.audio("arrowSwoosh", "assets/audio/arrowSwoosh.mp3");
 		this.isNextStageStarted = false;
@@ -52,7 +52,7 @@ var preloadState = {
 				this.isNextStageStarted = true;
 				// game should start with 'menu' scene
 				// you can change it for debug
-				this.game.state.start('play');
+				this.game.state.start('menu');
 			}
 		} 
     }

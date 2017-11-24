@@ -20,7 +20,8 @@ var climbersState = {
 			this.videoSprite = null;
 		}
 		
-		this.btnStart = new ButtonX(this.game, 980, 990, "buttons", this.onStartClicked, this, "StartGameBTN");
+		this.btnStart = new ButtonX(this.game, game.width*0.1, game.height*9/10, "buttons", this.onStartClicked, this, "StartGameBTN");
+		this.btnStart.scale.setTo(0.6, 0.6);
 		this.world.add(this.btnStart);
 		this.btnStart.visible = false;
 	},

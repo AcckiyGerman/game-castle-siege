@@ -20,39 +20,39 @@ var playState = {
     create: function() {
 
         // THIS IS FOR DEBUG PURPOSES, WHEN STARTING THE 'PLAY' STATE DIRECTLY:
-        Global = {
-            "minQuestions":10,
-            "questions":[
-                {"q":"question 1"},
-                {"q":"medium medium question question"},
-                {"q":"long long long question question question"},
-                {"q":"very long very long very long very long question question question question "},
-                {"q":"very long very long very long very long question question question question  very long very question question "},
-                {"q":"question 6"},
-                {"q":"very long very long very long very long question question question question  very long very question question "},
-                {"q":"question 8"},
-                {"q":"question 9"},
-                {"q":"question 10"},
-			],
-            "players":[
-                {"name":"Launcelot","avatar":"Black","score":0,"position":0},
-                {"name":"Gawain","avatar":"Blue","score":0,"position":0},
-                {"name":"Percivale","avatar":"Brown","score":0,"position":0},
-                {"name":"Lionel","avatar":"Green","score":0,"position":0},
-                {"name":"Tristram","avatar":"Orange","score":0,"position":0},
-                {"name":"Gareth","avatar":"Pink","score":0,"position":0},
-                {"name":"Bleoberis","avatar":"Purple","score":0,"position":0},
-                {"name":"Lacotemale","avatar":"Red","score":0,"position":0},
-                {"name":"Lucan","avatar":"White","score":0,"position":0},
-                {"name":"Lamorak","avatar":"Yellow","score":0,"position":0}
-            ],
-            "numberOfKnights":10,
-            "selectedMap":0,
-            "showQuestions":true,
-            "archerAttacks":true,
-            "knightColors":["Black","Blue","Brown","Green","Orange","Pink","Purple","Red","White","Yellow"],
-            "knightNames":["Launcelot","Gawain","Percivale","Lionel","Tristram","Gareth","Bleoberis","Lacotemale","Lucan","Lamorak"]
-        };
+        // Global = {
+        //     "minQuestions":10,
+        //     "questions":[
+        //         {"q":"question 1"},
+        //         {"q":"medium medium question question"},
+        //         {"q":"long long long question question question"},
+        //         {"q":"very long very long very long very long question question question question "},
+        //         {"q":"very long very long very long very long question question question question  very long very question question "},
+        //         {"q":"question 6"},
+        //         {"q":"very long very long very long very long question question question question  very long very question question "},
+        //         {"q":"question 8"},
+        //         {"q":"question 9"},
+        //         {"q":"question 10"},
+			// ],
+        //     "players":[
+        //         {"name":"Launcelot","avatar":"Black","score":0,"position":0},
+        //         {"name":"Gawain","avatar":"Blue","score":0,"position":0},
+        //         {"name":"Percivale","avatar":"Brown","score":0,"position":0},
+        //         {"name":"Lionel","avatar":"Green","score":0,"position":0},
+        //         {"name":"Tristram","avatar":"Orange","score":0,"position":0},
+        //         {"name":"Gareth","avatar":"Pink","score":0,"position":0},
+        //         {"name":"Bleoberis","avatar":"Purple","score":0,"position":0},
+        //         {"name":"Lacotemale","avatar":"Red","score":0,"position":0},
+        //         {"name":"Lucan","avatar":"White","score":0,"position":0},
+        //         {"name":"Lamorak","avatar":"Yellow","score":0,"position":0}
+        //     ],
+        //     "numberOfKnights":10,
+        //     "selectedMap":0,
+        //     "showQuestions":true,
+        //     "archerAttacks":true,
+        //     "knightColors":["Black","Blue","Brown","Green","Orange","Pink","Purple","Red","White","Yellow"],
+        //     "knightNames":["Launcelot","Gawain","Percivale","Lionel","Tristram","Gareth","Bleoberis","Lacotemale","Lucan","Lamorak"]
+        // };
         // ^^^ COMMENT THIS AFTER ^^^
 
 		this.add.image(0, 0, "map" + Global.selectedMap);
@@ -78,8 +78,8 @@ var playState = {
 		this.createPlayers();
 
 		if (Global.selectedMap == 0) archerY = 600;
-		if (Global.selectedMap == 1) archerY = 450;
-		if (Global.selectedMap == 2) archerY = 350;
+		if (Global.selectedMap == 1) archerY = 475;
+		if (Global.selectedMap == 2) archerY = 372;
 
 
 		// archer
@@ -183,22 +183,6 @@ var playState = {
 		var doWeHaveAWinner = false;
 		this.btnSubmit.visible = false;
 		this.players.forEach(function(player) {
-            // if (player.imgCorrect.visible === true) {
-            //     Global.players[player.id].score++;
-            //     player.score++;
-            //     // build ladder piece
-            //     var ladder = game.add.sprite(player.hero.x, 0, "Ladder", 0);
-            //     ladder.y = ladderYstart - player.score*ladderHeight;
-            //     ladder.anchor.setTo(.5, .5);
-            //     player.ladder.push(ladder);
-				// player.hero.bringToTop()
-            // } else {
-			 //    if (this.archerActive && player.score > 1) {
-            //         Global.players[player.id].score--;
-            //         player.score--;
-            //         this.archerAttackPlayer(player)
-            //     }
-            // }
             if (this.archerActive){
                 // go one step down for players with incorrect answer (if player's score >= 2)
                 if (player.imgCorrect.visible === false && player.score > 1){
@@ -237,11 +221,10 @@ var playState = {
         this.questionBar.bg.loadTexture('question_bg');  // reset bg color
 		
 		if (doWeHaveAWinner){
-			game.add.audio("answered_top").play();
+			game.add.audio("correctAnswerBell").play();
 		    this.congratWinner();
             this.hideQuestion();
 		} else {
-            game.add.audio("answered").play();
             this.animateRepositions();
             this.hideQuestion();
 		}
@@ -254,14 +237,15 @@ var playState = {
 	showQuestion: function() {
 	    // archer logic
         this.round++;
-        if (this.round % 4 === 0 && Global.archerAttacks)
+        if (this.round % 5 === 0 && Global.archerAttacks)
             this.archerActive = true;
 
         if (this.archerActive){
             // show archer
+            game.add.audio("drums").play();
             this.archer.visible = true;
             this.archer.loadTexture("ArcherFire");
-            game.add.audio("arrowSwoosh").play();
+            //game.add.audio("arrowSwoosh").play();
             this.questionBar.bg.loadTexture('question_red')
         } else{
             // hide archer
@@ -374,9 +358,10 @@ var playState = {
         // show game over sign and 'restart game' button
         var victory = game.add.sprite(game.width/2, game.height/4, 'Victory');
         victory.anchor.setTo(0.5, 0.5);
-        this.newGame = new ButtonX(this.game, game.width*9/10, game.height*7/8,
+        this.newGame = new ButtonX(this.game, game.width*9/10, game.height*9/10,
             "buttons", this.startNewGame, this, "NewGameBTN");
         this.newGame.anchor.setTo(0.5, 0.5);
+        this.newGame.scale.setTo(0.6, 0.6);
         this.game.world.add(this.newGame);
     },
     startNewGame: function(){
