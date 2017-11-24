@@ -1,6 +1,8 @@
 var avaXstart = 10;
 var avaYstart = 180;
 var avaYspace = 75;  // space between avatars
+var avaHeight = 0.115;  // this number is a part of 'PlayesBoard' image, which height is equal to
+	// avatar height. Depends of avatar image height, space you want underneath the players list, etc.
 
 var heroXstart = 800;
 var heroXspace = 80;  // space between heroes
@@ -18,43 +20,53 @@ var playState = {
     create: function() {
 
         // THIS IS FOR DEBUG PURPOSES, WHEN STARTING THE 'PLAY' STATE DIRECTLY:
-        // Global = {
-        //     "minQuestions":7,
-        //     "questions":[
-        //         {"q":"question 1"},
-        //         {"q":"medium medium question question"},
-        //         {"q":"long long long question question question"},
-        //         {"q":"very long very long very long very long question question question question "},
-        //         {"q":"very long very long very long very long question question question question  very long very question question "},
-        //         {"q":"question 6"},
-        //         {"q":"very long very long very long very long question question question question  very long very question question "}],
-        //     "players":[
-        //         {"name":"Launcelot","avatar":"Black","score":0,"position":0},
-        //         {"name":"Gawain","avatar":"Blue","score":0,"position":0},
-        //         {"name":"Percivale","avatar":"Brown","score":0,"position":0},
-        //         {"name":"Lionel","avatar":"Green","score":0,"position":0},
-        //         {"name":"Tristram","avatar":"Orange","score":0,"position":0},
-        //         {"name":"Gareth","avatar":"Pink","score":0,"position":0},
-        //         {"name":"Bleoberis","avatar":"Purple","score":0,"position":0},
-        //         {"name":"Lacotemale","avatar":"Red","score":0,"position":0},
-        //         {"name":"Lucan","avatar":"White","score":0,"position":0},
-        //         {"name":"Lamorak","avatar":"Yellow","score":0,"position":0}
-        //     ],
-        //     "numberOfKnights":10,
-        //     "selectedMap":0,
-        //     "showQuestions":true,
-        //     "archerAttacks":true,
-        //     "knightColors":["Black","Blue","Brown","Green","Orange","Pink","Purple","Red","White","Yellow"],
-        //     "knightNames":["Launcelot","Gawain","Percivale","Lionel","Tristram","Gareth","Bleoberis","Lacotemale","Lucan","Lamorak"]
-        // };
+        Global = {
+            "minQuestions":10,
+            "questions":[
+                {"q":"question 1"},
+                {"q":"medium medium question question"},
+                {"q":"long long long question question question"},
+                {"q":"very long very long very long very long question question question question "},
+                {"q":"very long very long very long very long question question question question  very long very question question "},
+                {"q":"question 6"},
+                {"q":"very long very long very long very long question question question question  very long very question question "},
+                {"q":"question 8"},
+                {"q":"question 9"},
+                {"q":"question 10"},
+			],
+            "players":[
+                {"name":"Launcelot","avatar":"Black","score":0,"position":0},
+                {"name":"Gawain","avatar":"Blue","score":0,"position":0},
+                {"name":"Percivale","avatar":"Brown","score":0,"position":0},
+                {"name":"Lionel","avatar":"Green","score":0,"position":0},
+                {"name":"Tristram","avatar":"Orange","score":0,"position":0},
+                {"name":"Gareth","avatar":"Pink","score":0,"position":0},
+                {"name":"Bleoberis","avatar":"Purple","score":0,"position":0},
+                {"name":"Lacotemale","avatar":"Red","score":0,"position":0},
+                {"name":"Lucan","avatar":"White","score":0,"position":0},
+                {"name":"Lamorak","avatar":"Yellow","score":0,"position":0}
+            ],
+            "numberOfKnights":10,
+            "selectedMap":0,
+            "showQuestions":true,
+            "archerAttacks":true,
+            "knightColors":["Black","Blue","Brown","Green","Orange","Pink","Purple","Red","White","Yellow"],
+            "knightNames":["Launcelot","Gawain","Percivale","Lionel","Tristram","Gareth","Bleoberis","Lacotemale","Lucan","Lamorak"]
+        };
         // ^^^ COMMENT THIS AFTER ^^^
 
 		this.add.image(0, 0, "map" + Global.selectedMap);
-		var playersBoard = this.add.image(5, 180, 'PlayersBoard');
-		playersBoard.scale.setTo(1.3, 0.115*Global.players.length);
 
-		this.btnSubmit = new ButtonX(this.game, 247, 940, "buttons", this.onSubmitClicked, this, "SubmitBTN");
-		this.btnSubmit.anchor.setTo(.5, 0);
+		var playersBoard = this.add.image(5, 180, 'PlayersBoard');
+		playersBoard.scale.setTo(1.3, avaHeight*(Global.players.length+1)); // +2 is for the submit button
+
+		this.btnSubmit = new ButtonX(
+			this.game,
+			playersBoard.x+playersBoard.width - 10, // x
+			playersBoard.y+playersBoard.height -10, // y
+			"buttons", this.onSubmitClicked, this, "SubmitBTN");
+		this.btnSubmit.anchor.setTo(1, 1);
+		this.btnSubmit.scale.setTo(0.5, 0.5);
 		this.game.world.add(this.btnSubmit);
 
         if (Global.selectedMap == 0) this.maxScore = 7;
@@ -119,9 +131,11 @@ var playState = {
 			p.add(p.btnCorrect);
 			p.btnWrong = new ButtonX(this.game, 420, 30, "buttons", this.onWrongClicked, p, "X");
 			p.add(p.btnWrong);
-			p.imgCorrect = new ButtonX(this.game, p.btnCorrect.x, p.btnCorrect.y, "misc", this.onCorrectClicked, p, "img_correct");
+			//p.imgCorrect = new ButtonX(this.game, p.btnCorrect.x, p.btnCorrect.y, "misc", this.onCorrectClicked, p, "img_correct");
+			p.imgCorrect = new ButtonX(this.game, p.btnCorrect.x, p.btnCorrect.y, "buttons", this.onCorrectClicked, p, "V");
 			p.add(p.imgCorrect);
-			p.imgWrong = new ButtonX(this.game, p.btnWrong.x, p.btnWrong.y, "misc", this.onWrongClicked, p, "img_wrong");
+			//p.imgWrong = new ButtonX(this.game, p.btnWrong.x, p.btnWrong.y, "misc", this.onWrongClicked, p, "img_wrong");
+			p.imgWrong = new ButtonX(this.game, p.btnWrong.x, p.btnWrong.y, "buttons", this.onWrongClicked, p, "X");
 			p.add(p.imgWrong);
 			p.imgCorrect.visible = false;
 			p.imgWrong.visible = false;
