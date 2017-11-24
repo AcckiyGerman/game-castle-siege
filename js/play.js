@@ -11,7 +11,7 @@ var heroYstart = 1000;
 var ladderHeight = 35;
 var ladderYstart = 1020;
 
-var archerX = 1600;
+var archerX = 1630;
 var archerY = 0;
 
 var playState = {
@@ -82,11 +82,11 @@ var playState = {
 		if (Global.selectedMap == 2) archerY = 350;
 
 
-		if (Global.archerAttacks) {
-            this.archer = game.add.sprite(archerX, archerY, 'Archer');
-            this.archer.anchor.setTo(0.5, 0.5);
-            //this.archer.visible = false;
-        }
+		// archer
+        this.archer = game.add.sprite(archerX, archerY, 'Archer');
+        this.archer.anchor.setTo(0.6, 0.6);
+        this.archer.crop(new Phaser.Rectangle(0, 0, this.archer.width, this.archer.height*0.7));
+        this.archer.visible = false;
         this.archerActive = false;
         this.round = 0;  // every 4-th round the archer appears
 
@@ -183,20 +183,40 @@ var playState = {
 		var doWeHaveAWinner = false;
 		this.btnSubmit.visible = false;
 		this.players.forEach(function(player) {
-			if (player.imgCorrect.visible === true) {
-                Global.players[player.id].score++;
-                player.score++;
-                // build ladder piece
-                var ladder = game.add.sprite(player.hero.x, 0, "Ladder", 0);
-                ladder.y = ladderYstart - player.score*ladderHeight;
-                ladder.anchor.setTo(.5, .5);
-                player.ladder.push(ladder);
-				player.hero.bringToTop()
-            } else {
-			    if (this.archerActive && player.score > 1) {
+            // if (player.imgCorrect.visible === true) {
+            //     Global.players[player.id].score++;
+            //     player.score++;
+            //     // build ladder piece
+            //     var ladder = game.add.sprite(player.hero.x, 0, "Ladder", 0);
+            //     ladder.y = ladderYstart - player.score*ladderHeight;
+            //     ladder.anchor.setTo(.5, .5);
+            //     player.ladder.push(ladder);
+				// player.hero.bringToTop()
+            // } else {
+			 //    if (this.archerActive && player.score > 1) {
+            //         Global.players[player.id].score--;
+            //         player.score--;
+            //         this.archerAttackPlayer(player)
+            //     }
+            // }
+            if (this.archerActive){
+                // go one step down for players with incorrect answer (if player's score >= 2)
+                if (player.imgCorrect.visible === false && player.score > 1){
                     Global.players[player.id].score--;
                     player.score--;
                     this.archerAttackPlayer(player)
+                }
+            } else {
+                // go one step up for players with correct answer
+                if (player.imgCorrect.visible === true) {
+                    Global.players[player.id].score++;
+                    player.score++;
+                    // build ladder piece
+                    var ladder = game.add.sprite(player.hero.x, 0, "Ladder", 0);
+                    ladder.y = ladderYstart - player.score * ladderHeight;
+                    ladder.anchor.setTo(.5, .5);
+                    player.ladder.push(ladder);
+                    player.hero.bringToTop()
                 }
             }
 
@@ -238,9 +258,17 @@ var playState = {
             this.archerActive = true;
 
         if (this.archerActive){
+            // show archer
+            this.archer.visible = true;
             this.archer.loadTexture("ArcherFire");
             game.add.audio("arrowSwoosh").play();
             this.questionBar.bg.loadTexture('question_red')
+        } else{
+            // hide archer
+            var archer = this.archer;
+            setTimeout(function(){
+                archer.visible = false;
+            }, 1500);
         }
 
 		game.add.tween(this.questionBar).to({
