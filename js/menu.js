@@ -32,11 +32,14 @@ var menuState = {
 						var res = JSON.parse(contents);	
 						var questionsString = CryptoJS.AES.decrypt(res.questions, "k234n111!?-Mnkw#").toString(CryptoJS.enc.Utf8) + "";
 						var questions = JSON.parse(questionsString);
+						console.log('loaded questions:', questions);
 						for (var i=0; i<questions.length; i++) {
 							Global.questions = [];
 							for (var i=0; i<questions.length; i++) {
-								Global.questions[i] = {"q": questions[i]}
-							}
+								Global.questions[i] = {
+									q: questions[i].q,
+									a: questions[i].a}
+								}
 						}
 						menuState.music.stop();
 						game.state.start('rules',true);

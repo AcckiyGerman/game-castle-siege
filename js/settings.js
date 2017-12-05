@@ -115,7 +115,7 @@ var settingsState = {
 		
 		Global.minQuestions = noOfQuestions;
 		while (Global.questions.length < noOfQuestions) {
-			Global.questions.push({"q": ""});
+			Global.questions.push({"q": "", "a": ""});
 		}
 
         console.log('Global:', Global);
