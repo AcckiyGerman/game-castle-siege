@@ -1,5 +1,6 @@
 function downloadQuestions() {
     var questions = $("INPUT.input-question");
+    var answers = $("INPUT.input-answer");
     //validation
     for (var i=0; i<questions.length; i++) {
         if ($(questions[i]).val().trim() == "") {
@@ -10,7 +11,10 @@ function downloadQuestions() {
 
     var tmpQuestions = [];
     for (var i=0; i<questions.length; i++) {
-        tmpQuestions[i] = $(questions[i]).val();
+        tmpQuestions[i] = {
+            "q": $(questions[i]).val(),
+            "a": $(answers[i]).val()
+        }
     }
 
     res = {"version": 1.0, "questions": "" + CryptoJS.AES.encrypt(JSON.stringify(tmpQuestions), "k234n111!?-Mnkw#")};
@@ -24,6 +28,7 @@ function downloadQuestions() {
 
 function hideQuestions() {
     var questions = $("INPUT.input-question");
+    var answers = $("INPUT.input-answer");
     //validation
     for (var i=0; i<questions.length; i++) {
         if ($(questions[i]).val().trim() == "") {
@@ -34,7 +39,8 @@ function hideQuestions() {
     Global.questions = [];
     for (var i=0; i<questions.length; i++) {
         Global.questions[i] = {
-            "q": $(questions[i]).val()
+            "q": $(questions[i]).val(),
+            "a": $(answers[i]).val()
         }
     }
     document.getElementById("questions-form").style.display = "none";
@@ -72,7 +78,7 @@ function showQuestions() {
     //remove all questions
     $("#questions").html("");
     for (var i=0; i<Global.questions.length; i++)
-        addQuestion(Global.questions[i].q, false);
+        addQuestion(Global.questions[i].q, Global.questions[i].a, false);
     document.getElementById("questions-form").style.display = "block";
     updateSize();
 }
@@ -113,17 +119,18 @@ function updateSize() {
 
 }
 
-function addQuestion(text, scrollDown) {
+function addQuestion(questionText, answerText, scrollDown) {
     var noOfQuestion = $("#questions").first().children().length;
     $("#questions").append(
         '<div data-id="' + noOfQuestion + '" class="question-row">' +
         '	<span class="question">Question ' + (noOfQuestion+1) + '</span>' +
         '	<input class="input-question" type="text" value=""/>' +
-        //'	<input class="input-answer" type="text" value=""/>' +
+        '	<input class="input-answer" type="text" value=""/>' +
         '   <div class="button-delete" onclick="removeQuestion($(this).parent())"></div>' +
         '</div>'
     );
-    $("INPUT", $("#questions :last-child")).val(text);
+    $("INPUT", $("#questions :last-child"))[0].value = questionText;
+    $("INPUT", $("#questions :last-child"))[1].value = answerText;
     if (scrollDown)
         $("#questions-scrollbar-holder").mCustomScrollbar("scrollTo","bottom");
     if (noOfQuestion+1 > Global.minQuestions) $(".button-delete").show();

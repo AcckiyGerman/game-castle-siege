@@ -62,7 +62,7 @@ INPUT {
 .question {
     font-size: 2rem;
     color: white;
-    width: 15rem;
+    width: 12rem;
 
     display:block;
     float:left;
@@ -74,8 +74,8 @@ INPUT {
 #questions-scrollbar-holder{
     height: 30rem;
     overflow: auto;
-    width: 77rem;
-    margin-left: 5rem;
+    /*width: 77rem;*/
+    margin-left: 1rem;
     margin-top: 15rem;
 }
 
