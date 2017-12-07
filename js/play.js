@@ -23,16 +23,16 @@ var playState = {
         // Global = {
         //     "minQuestions":10,
         //     "questions":[
-        //         {"q":"question 1"},
-        //         {"q":"medium medium question question"},
-        //         {"q":"long long long question question question"},
-        //         {"q":"very long very long very long very long question question question question "},
-        //         {"q":"very long very long very long very long question question question question  very long very question question "},
-        //         {"q":"question 6"},
-        //         {"q":"very long very long very long very long question question question question  very long very question question "},
-        //         {"q":"question 8"},
-        //         {"q":"question 9"},
-        //         {"q":"question 10"},
+        //         {"q":"question 1", "a":"blabla bla answer 1"},
+        //         {"q":"medium medium question question 2", "a":"blabla bla answer 2"},
+        //         {"q":"long long long question question question 3", "a":"blabla bla answer 3"},
+        //         {"q":"very long very long very long very long question question question question 4", "a":"blabla bla answer 4"},
+        //         {"q":"very long very long very long very long question question question question  very long very question question 5", "a":"blabla bla answer 5"},
+        //         {"q":"question 6", "a":"blabla bla answer 6"},
+        //         {"q":"very long very long very long very long question question question question  very long very question question 7", "a":"blabla bla answer 7"},
+        //         {"q":"question 8", "a":"blabla bla answer 8"},
+        //         {"q":"question 9", "a":"blabla bla answer 9"},
+        //         {"q":"question 10", "a":"blabla bla answer 10"},
 			// ],
         //     "players":[
         //         {"name":"Launcelot","avatar":"Black","score":0,"position":0},
@@ -97,6 +97,18 @@ var playState = {
 		this.questionBar.txt = game.add.text(700, 45, Global.questions[this.randomQueue[0]].q, standarTextBlack, this.questionBar);
 		this.questionBar.txt.anchor.setTo(.5, 0);
 		this.questionBar.y = -200;
+
+		if (Global.showQuestions) {
+            this.btnAnswer = new Phaser.Button(
+                this.game,
+                this.game.width*9/10,
+                this.game.height*1/10,
+                "AnswerBTN", this.onAnswerClicked, this);
+            this.btnAnswer.anchor.setTo(1, 1);
+
+            this.game.world.add(this.btnAnswer);
+		}
+
 		this.showQuestion();
 	},
 	createRandomQuestionsQueue: function() {
@@ -229,6 +241,11 @@ var playState = {
             this.hideQuestion();
 		}
 	},
+	onAnswerClicked: function() {
+		var currentQuestion = Global.questions[this.randomQueue[this.currentQuestion]];
+        this.questionBar.txt.setText('Answer: ' + currentQuestion.a);
+        this.btnAnswer.visible = false;
+	},
 	hideQuestion: function() {
 		game.add.tween(this.questionBar).to({
 				y: -80 - this.questionBar.bg.height
@@ -255,6 +272,15 @@ var playState = {
             }, 1500);
         }
 
+        // show the question
+        this.currentQuestion++;
+
+        if (this.currentQuestion == Global.questions.length && Global.showQuestions)
+            this.currentQuestion = 0;
+        if (Global.showQuestions) {
+        	this.btnAnswer.visible = true;
+        }
+
 		game.add.tween(this.questionBar).to({
 				y: 0
 		}, 1000, Phaser.Easing.Quintic.Out, true, 0);
@@ -268,11 +294,7 @@ var playState = {
 		this.questionBar.txt.align = 'center';
 		
 		//this.questionBar.bg.height = this.questionBar.txt.height + 80;
-		
-		this.currentQuestion++;
-		
-		if (this.currentQuestion == Global.questions.length && Global.showQuestions)
-			this.currentQuestion = 0;
+
 	},
 	enableLeftButtons: function() {
 		for (var i=0; i<this.players.length; i++) {

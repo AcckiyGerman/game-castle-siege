@@ -17,6 +17,7 @@ var preloadState = {
 		game.load.image('question_bg', 'assets/question_bg.png');
         game.load.image('question_red', 'assets/question_red.png');
         game.load.image('Victory', 'assets/Victory.png');
+        game.load.image('AnswerBTN', 'images/AnswerBTN.png');
 
 		// gameplay assets
 		game.load.image('Archer', 'assets/gameplay/Archer.png');
