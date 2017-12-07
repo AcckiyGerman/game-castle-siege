@@ -114,6 +114,16 @@ INPUT {
     background-size: 100% 100%;
     margin-left: 34rem;
 }
+#button-print {
+    background:url("images/PrintBTN.png") no-repeat;
+    background-size: 100% 100%;
+    cursor:pointer;
+    border:none;
+    width:14.7rem;
+    height:4.5rem;
+    margin-left: 1rem;
+}
+
 #button-download:active{
     background:url("images/SaveBTNpress.png") no-repeat;
     background-size: 100% 100%;

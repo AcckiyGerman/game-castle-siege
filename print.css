@@ -1,0 +1,37 @@
+*{
+    margin: 0 !important;
+    padding: 0 !important;
+    height: auto !important;
+    overflow: hidden !important;
+    font-size: 1vh !important;
+}
+
+BODY, HTML {
+    margin:             0;
+    padding:            0;
+    color:              black;
+    background-color:   white;
+    overflow:           auto;
+}
+
+canvas {
+    visibility: hidden;
+}
+
+#questions-scrollbar-holder {
+    position: fixed;
+    left: 0;
+    right: 0;
+}
+
+.question-row {
+    margin-bottom: 10px !important;
+}
+
+.question {
+    padding-left: 40% !important;
+}
+
+INPUT {
+    width: 100% !important;
+}
